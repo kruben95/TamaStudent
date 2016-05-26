@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TamaStudent</string>
+    <string name="studentName">Peter</string>
+    <string name="btnSleep">Schlafen gehen</string>
+    <string name="btnHunger">Etwas essen</string>
+    <string name="btnEntertainment">Fernseh gucken</string>
+</resources>
