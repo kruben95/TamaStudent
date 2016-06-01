@@ -1,8 +1,5 @@
 package de.k_ruben.tamastudent;
 
-import android.content.Context;
-import android.support.annotation.StringRes;
-import android.widget.Toast;
 
 /**
  * Created by Ruben on 23.04.2016.
@@ -12,8 +9,12 @@ public class Student
     public String name;
     public double sleep;
     public double hunger;
-    public double thirst;
+    public double uni;
     public double entertainment;
+
+    public boolean isSleeping;
+    public boolean isEating;
+    public boolean isPlaying;
 
     /**
      * Erstellung des Studenten
@@ -30,7 +31,7 @@ public class Student
             //Wahrscheinlich lieber schlechte Stats machen, damit man beim erstmaligen Spielen auch was zu tun hat
             this.sleep = 20;
             this.hunger = 20;
-            this.thirst = 35;
+            this.uni = 35;
             this.entertainment = 42;
         }
     }
@@ -99,6 +100,25 @@ public class Student
     double getEntertainmentValue()
     {
         return entertainment;
+    }
+
+    /**
+     * Ändert den Schlaf-Wert
+     * @param changeValue       Wert, um den sich der Schlaf-Wert ändern soll
+     */
+    void changeUniValue(double changeValue)
+    {
+        if((uni + changeValue) < 0) uni = 0;
+        else if((uni + changeValue) <= 100)
+        {
+            uni += changeValue;
+        }
+        else uni = 100;
+    }
+
+    double getUniValue()
+    {
+        return uni;
     }
 }
 

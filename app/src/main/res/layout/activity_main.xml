@@ -1,70 +1,149 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+<RelativeLayout android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="#3058fa"
-    android:measureWithLargestChild="false"><![CDATA[
-    tools:context=".MainActivity"
-    android:id="@+id/view"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_weight="1000"
+    android:minHeight="100dp"
+    android:minWidth="100dp"
+    android:background="@drawable/backgroundroom"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnEnergyDrink"
+        android:id="@+id/btnEnergyDrink"
+        android:onClick="energyDrink"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="false"/>
 
-    ]]>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/entertainment"
+        android:layout_below="@+id/circleEat"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:contentDescription="Entertainment Value"
+        android:src="@drawable/kreis0"/>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1000"
-        android:minHeight="100dp"
-        android:minWidth="100dp"
-        android:background="#eaeaea">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/circleEat"
+        android:layout_below="@+id/circleSleep"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/kreis0"/>
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:id="@+id/face"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:nestedScrollingEnabled="false"
-            android:adjustViewBounds="false"
-            />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/circleSleep"
+        android:src="@drawable/kreis0"
+        android:layout_above="@+id/circleUni"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btnEnergyDrink"
-            android:id="@+id/btnEnergyDrink"
-            android:onClick="energyDrink"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="false"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnSave"
+        android:id="@+id/btnSave"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="save"/>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/entertainment"
-            android:layout_below="@+id/circleEat"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:contentDescription="Entertainment Value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnSleep"
+        android:id="@+id/btnSleep"
+        android:layout_below="@+id/btnEnergyDrink"
+        android:layout_alignRight="@+id/btnEnergyDrink"
+        android:layout_alignEnd="@+id/btnEnergyDrink"
+        android:onClick="sleep"/>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/circleEat"
-            android:layout_below="@+id/circleSleep"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnLoad"
+        android:id="@+id/btnLoad"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/btnSave"
+        android:layout_toStartOf="@+id/btnSave"
+        android:onClick="load"/>
 
-        <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/circleSleep"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"/>
-    </RelativeLayout>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/circleUni"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/entertainment"
+        android:layout_toEndOf="@+id/entertainment"
+        android:src="@drawable/kreis0"/>
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/body"
+        android:src="@drawable/studibody"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btnEnergyDrink" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/face"
+        android:nestedScrollingEnabled="false"
+        android:adjustViewBounds="false"
+        android:src="@drawable/studihead2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/entertainment"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="5dp" />
+
+  <!--  <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="130dp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorFAB2"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/ic_done" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="75dp"
+        android:visibility="invisible"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorFAB1"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/ic_message" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorAccent"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/ic_add"
+        android:layout_marginLeft="69dp"
+        android:layout_alignTop="@+id/circleSleep"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="69dp" /> -->
+
+</RelativeLayout>

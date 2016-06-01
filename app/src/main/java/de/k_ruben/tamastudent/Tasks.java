@@ -25,25 +25,27 @@ public abstract class Tasks implements Executeable
 
     /**
      * Errechnet die Zeit, die seit letztem Aufruf vergangen ist
-     * @return              Die Zeit, die vergangen ist
+     *
+     * @return Die Zeit, die vergangen ist
      */
     protected double elapsedTime()
     {
         currentTimeMillis = System.currentTimeMillis();
         //Wenn task isInfinite und currentTimeMillis > epireDate
-        if(isInfinite && currentTimeMillis >= expireDate)
+        if (isInfinite && currentTimeMillis >= expireDate)
         {
             //errechnen, wie viel Zeit seit dem letzten execute tatsächlich vergangen ist mit Rücksichtnahme auf
             //delay und täglichen Aufgaben
         }
-        if(currentTimeMillis < expireDate) return (currentTimeMillis - lastExecute);
-        if(currentTimeMillis >= expireDate) return (expireDate -lastExecute);
+        if (currentTimeMillis < expireDate) return (currentTimeMillis - lastExecute);
+        if (currentTimeMillis >= expireDate) return (expireDate - lastExecute);
         return (currentTimeMillis - lastExecute);
     }
 
     /**
      * Wie lange die Aufgabe insgesamt läuft
-     * @return              Laufzeit der Aufgabe
+     *
+     * @return Laufzeit der Aufgabe
      */
     protected double taskDuration()
     {
@@ -52,12 +54,13 @@ public abstract class Tasks implements Executeable
 
     /**
      * Errechnet den Wert, um den sich ein Status ändert
-     * @param value         Wert, um den sich ein Status insgesamt ändern soll
-     * @return              Um wie viel sich ein Status innerhalb der vergangenen Zeit ändert
+     *
+     * @param value Wert, um den sich ein Status insgesamt ändern soll
+     * @return Um wie viel sich ein Status innerhalb der vergangenen Zeit ändert
      */
     protected double calculateChangeValue(int value)
     {
-        return (value / (taskDuration()/elapsedTime()));
+        return (value / (taskDuration() / elapsedTime()));
     }
 
     /**
@@ -65,8 +68,8 @@ public abstract class Tasks implements Executeable
      */
     protected void reset()
     {
-        if(dailyTask) reset(1000 * 60 * 60 * 24);
-        //if(dailyTask) reset(3000);
+        if (dailyTask) reset(1000 * 60 * 60 * 24);
+            //if(dailyTask) reset(3000);
         else
         {
             long diff = expireDate - startDate;
@@ -78,6 +81,7 @@ public abstract class Tasks implements Executeable
 
     /**
      * Setzte die Aufgabe zurück um angebene Zeit
+     *
      * @param time
      */
     protected void reset(int time)

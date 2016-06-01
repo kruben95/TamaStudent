@@ -5,4 +5,6 @@
     <string name="btnHunger">Etwas essen</string>
     <string name="btnEntertainment">Fernseh gucken</string>
     <string name="btnEnergyDrink">Energy Drink</string>
+    <string name="btnSave">Speichern</string>
+    <string name="btnLoad">Laden</string>
 </resources>
