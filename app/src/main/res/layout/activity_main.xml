@@ -19,9 +19,9 @@
         android:layout_alignParentEnd="false"/>
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/entertainment"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:id="@+id/circleEntertainment"
         android:layout_below="@+id/circleEat"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -29,8 +29,8 @@
         android:src="@drawable/kreis0"/>
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:id="@+id/circleEat"
         android:layout_below="@+id/circleSleep"
         android:layout_alignParentLeft="true"
@@ -38,11 +38,10 @@
         android:src="@drawable/kreis0"/>
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:id="@+id/circleSleep"
         android:src="@drawable/kreis0"
-        android:layout_above="@+id/circleUni"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
@@ -77,12 +76,11 @@
         android:onClick="load"/>
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:id="@+id/circleUni"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/entertainment"
-        android:layout_toEndOf="@+id/entertainment"
+        android:layout_below="@+id/circleEntertainment"
         android:src="@drawable/kreis0"/>
 
     <ImageView
@@ -103,7 +101,6 @@
         android:src="@drawable/studihead2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/entertainment"
         android:layout_marginTop="50dp"
         android:layout_marginRight="5dp" />
 

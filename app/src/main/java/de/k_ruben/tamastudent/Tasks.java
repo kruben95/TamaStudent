@@ -5,6 +5,7 @@ package de.k_ruben.tamastudent;
  */
 public abstract class Tasks implements Executeable
 {
+    String klasse = "";
     //Erstelldatum der Aufgabe
     long startDate;
     //Datum seit letztem ausführen von Methode execute

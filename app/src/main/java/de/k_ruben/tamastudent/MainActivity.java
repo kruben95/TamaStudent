@@ -18,8 +18,11 @@ public class MainActivity extends AppCompatActivity
     LinkedList<Tasks> mainTaskList = new LinkedList<Tasks>();
     Student s = new Student();
     boolean pause = false;
-    SaveState saveTasks;
-    SaveState saveStatValues;
+    SaveState saveTasksSleep;
+    SaveState saveTasksFood;
+    SaveState saveTasksEntertainment;
+    SaveState saveTasksEducation;
+    SaveState<Student> saveStudentState;
 
     //private Thread thread;
     private Handler handler = new Handler();
@@ -120,15 +123,20 @@ public class MainActivity extends AppCompatActivity
 
         sleepCircle = (ImageView) findViewById(R.id.circleSleep);
         eatCircle = (ImageView) findViewById(R.id.circleEat);
-        entertainmentCircle = (ImageView) findViewById(R.id.entertainment);
+        entertainmentCircle = (ImageView) findViewById(R.id.circleEntertainment);
         studentFace = (ImageView) findViewById(R.id.face);
         studentBody = (ImageView) findViewById(R.id.body);
         uniCircle = (ImageView) findViewById(R.id.circleUni);
-        saveTasks = new SaveState(this, "saveTasksState");
-        saveStatValues = new SaveState(this, "saveStatus");
+
+
+        saveTasksSleep = new SaveState(this, "saveTasksSleep");
+        //SaveState<Food> saveTasksFood = new SaveState(this, "saveTasksFoodState");
+        //SaveState<Entertainment> saveTasksEntertainment = new SaveState(this, "saveTasksEntertainmentState");
+        //SaveState<Education> saveTasksEducation = new SaveState(this, "saveTasksEducationState");
+        saveStudentState = new SaveState(this, "saveStatus");
 
         //Stats aktualisieren
-        updateValues();     //später ersetzen durch Methode, die neue Werte seit App-Schließung berechnet
+        //updateValues();     //später ersetzen durch Methode, die neue Werte seit App-Schließung berechnet
 
         thread.start();
     }
@@ -138,7 +146,7 @@ public class MainActivity extends AppCompatActivity
     {
         public void run()
         {
-            updateValues();
+            //updateValues();
         }
     };
 
@@ -212,23 +220,40 @@ public class MainActivity extends AppCompatActivity
     //erstellt eine neue Aufgabe
     public void energyDrink(View v)
     {
-        currentTimeMillis = System.currentTimeMillis();
-        Tasks energyDrink = new Sleep(1000, 1, true);
+        Tasks energyDrink = new Sleep(1000, 20, false);
         mainTaskList.add(energyDrink);
     }
 
     //erstellt eine neue Aufgabe
     public void eat(View v)
     {
-        Tasks eat = new Hunger((1000), 20, false);
+        Tasks eat = new Hunger(1000, 20, false);
         mainTaskList.add(eat);
     }
 
     public void save(View v)
     {
         LinkedList<Tasks> saveTaskList = mainTaskList;
-        saveTasks.saveLinkedList(saveTaskList, "TaskList");
-        //saveStatValues.saveObject(s, "StatValues");
+        LinkedList<Tasks> saveTaskListSleep = new LinkedList<>();
+        /*LinkedList<Food> saveTaskListFood = new LinkedList<>();
+        LinkedList<Entertainment> saveTaskListEntertainment = new LinkedList<>();
+        LinkedList<Education> saveTaskListEducation = new LinkedList<>();*/
+
+        for(int i = 0; i < saveTaskList.size(); i++)
+        {
+            Tasks halter = saveTaskList.get(i);
+            if(halter.klasse == "sleep") saveTaskListSleep.add(halter);
+            /*else if(halter.klasse == "food") saveTaskListFood.add(halter);
+            else if(halter.klasse == "entertainment") saveTaskListEntertainment.add(halter);
+            else if(halter.klasse == "education") saveTaskListEducation.add(halter);*/
+        }
+
+
+        saveTasksSleep.saveLinkedList(saveTaskListSleep);
+        //saveTasksFood.saveLinkedList(saveTaskListFood, "foodObject");
+        //saveTasksEntertainment.saveLinkedList(saveTaskListEntertainment, "entertainmentObject");
+        //saveTasksEntertainment.saveLinkedList(saveTaskListEducation, "educationObject");
+        saveStudentState.saveObject(s);
         pause = true;
     }
 
@@ -236,8 +261,17 @@ public class MainActivity extends AppCompatActivity
     {
         //Spielstand laden
         pause = false;
-        s = saveStatValues.loadObject("StatValues");
-        mainTaskList = saveTasks.loadAllTasks("TaskList");
+        s = saveStudentState.loadObject();
+        mainTaskList.clear();
+        addToMainList(saveTasksSleep.loadAllTasks("sleep"));
+    }
+
+    public void addToMainList(LinkedList<Tasks> secondList)
+    {
+        for(int i = 0; i < secondList.size(); i++)
+        {
+            mainTaskList.add(secondList.get(i));
+        }
     }
 
     /*

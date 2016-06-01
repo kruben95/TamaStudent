@@ -15,7 +15,7 @@ import java.util.LinkedList;
 /**
  * Created by Ruben on 26.05.2016.
  */
-public class SaveState
+public class SaveState <T>
 {
     //Convert User object  user to Json format
     Gson gson = new Gson();
@@ -30,59 +30,46 @@ public class SaveState
         mPrefs = context.getSharedPreferences(filename, context.MODE_PRIVATE);
     }
 
-    public void saveObject(Tasks item, String name)
+    public void saveObject(T item)
     {
-        //Tasks durch T ersetzten und task durch item
         // Evtl. erst alle bisherigen SharedPreferences löschen
         Editor prefsEditor = mPrefs.edit();
         String json = gson.toJson(item);
-        prefsEditor.putString(name, json);
+        prefsEditor.putString(filename, json);
         prefsEditor.commit();
     }
 
-    public void saveObject(Student s, String name)
+    public void saveLinkedList(LinkedList<Tasks> list)
     {
-        //Doppelt siehe oben.
-        //Student durch T ersetzten und s durch item
-        // Evtl. erst alle bisherigen SharedPreferences löschen
-        Editor prefsEditor = mPrefs.edit();
-        String json = gson.toJson(s);
-        prefsEditor.putString(name, json);
-        prefsEditor.commit();
-    }
-
-    public void saveLinkedList(LinkedList<Tasks> list, String name)
-    {
-        //Tasks durch T ersetzten und varialennamen durch item
-        Tasks item = null;
         int length = list.size();
-        // Evtl. erst alle bisherigen SharedPreferences löschen
+        //Evtl. erst alle bisherigen SharedPreferences löschen
         for(int n = 0; n < length; n++)
         {
-            item = list.get(n);
             Editor prefsEditor = mPrefs.edit();
-            String json = gson.toJson(item);
+            String json = gson.toJson(list.get(n));
             Log.d("ListItem" + n, json);
-            prefsEditor.putString(name + n, json);
+            prefsEditor.putString(filename + n, json);
             prefsEditor.commit();
         }
     }
 
-    public LinkedList<Tasks> loadAllTasks(String name)
+    public LinkedList<Tasks> loadAllTasks(String klasse)
     {
         LinkedList<Tasks> list = new LinkedList<>();
-        Tasks item = null;
         int i = 0;
         boolean hasNext = true;
+
 
         //load Tasks
         while(hasNext)
         {
             try
             {
-                String json = mPrefs.getString(name + i, "Nichts (mehr) gefunden");
-                item = gson.fromJson(json, Tasks.class);
-                list.add(item);
+                String json = mPrefs.getString(filename + i, "Nichts (mehr) gefunden");
+                if(klasse == "sleep") list.add(gson.fromJson(json, Sleep.class));
+                //if(klasse == "food") list.add(gson.fromJson(json, Food.class));
+                //if(klasse == "entertainment") list.add(gson.fromJson(json, Entertainment.class));
+                //if(klasse == "education") list.add(gson.fromJson(json, Education.class));
                 i++;
             }
             catch (Exception e)
@@ -94,16 +81,17 @@ public class SaveState
         return list;
     }
 
-    public Student loadObject(String name)
+    public Student loadObject()
     {
-        Student item = null;
         try
         {
-            String json = mPrefs.getString(name, "Nichts (mehr) gefunden");
-            item = gson.fromJson(json, Student.class);
+            String json = mPrefs.getString(filename, "Nichts (mehr) gefunden");
+            return (gson.fromJson(json, Student.class));
         }
         catch (Exception e)
-        {}
-        return item;
+        {
+            Log.d("Tag", "Kein Student (SaveState) gefunden");
+            return null;
+        }
     }
 }

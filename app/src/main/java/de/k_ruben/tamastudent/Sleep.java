@@ -18,6 +18,7 @@ public class Sleep extends Tasks
      */
     public Sleep(int expireTime, int changeValueSleep, boolean isInfinite)
     {
+        this.klasse = "sleep";
         currentTimeMillis = System.currentTimeMillis();
         startDate = currentTimeMillis;
         lastExecute = currentTimeMillis;
@@ -36,6 +37,7 @@ public class Sleep extends Tasks
      */
     public Sleep(int expireTime, int delay, int changeValueSleep, boolean isInfinite, boolean uniqueDelay)
     {
+        this.klasse = "sleep";
         currentTimeMillis = System.currentTimeMillis();
         this.delay = delay;
         startDate = currentTimeMillis + delay;
@@ -58,6 +60,7 @@ public class Sleep extends Tasks
      */
     public Sleep(long startDate, long endDate, int changeValueSleep, boolean isInfinite, boolean calculateBack)
     {
+        this.klasse = "sleep";
         currentTimeMillis = System.currentTimeMillis();
         this.startDate = startDate;
         this.lastExecute = startDate;
