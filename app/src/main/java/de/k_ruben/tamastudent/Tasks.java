@@ -33,10 +33,48 @@ public abstract class Tasks implements Executeable
     {
         currentTimeMillis = System.currentTimeMillis();
         //Wenn task isInfinite und currentTimeMillis > epireDate
-        if (isInfinite && currentTimeMillis >= expireDate)
+        if (dailyTask == true)
         {
-            //errechnen, wie viel Zeit seit dem letzten execute tatsächlich vergangen ist mit Rücksichtnahme auf
-            //delay und täglichen Aufgaben
+            long wait = 0;
+            long elapsedTime = 0;
+            boolean stop = false;
+
+            /*//ob lastExecute noch vor dem Startzeitpunkt oder now ist -> Wartezeit berechnen
+            if(lastExecute < startDate && currentTimeMillis > startDate) wait += startDate - lastExecute;
+            else if(lastExecute < startDate && currentTimeMillis < startDate) wait += currentTimeMillis - lastExecute;
+            //welcher Zeitpunkt näher am Startdatum liegt. Wenn expireDate, dann wird von startDate bis expireDate berechnet, wenn now
+            // näher an startdate und damit vor expireDate, dann wird von startDate bis now berechnet
+            if(currentTimeMillis > expireDate) elapsedTime += expireDate - startDate;
+            else if(currentTimeMillis <= expireDate) elapsedTime += currentTimeMillis - startDate;*/
+            while(!stop)
+            {
+                if (lastExecute < startDate && currentTimeMillis < startDate)
+                {
+                    wait += currentTimeMillis - lastExecute; //sobald Now erreicht wurde kann eigentlich schon return gemacht werden
+                    lastExecute = currentTimeMillis;
+                    stop = true;
+                } else if (lastExecute < startDate && currentTimeMillis >= startDate)
+                {
+                    wait += startDate - lastExecute;
+                    lastExecute = startDate;
+                }
+
+                //hier wird ab startDate jetzt berechnet
+                if (currentTimeMillis < expireDate)
+                {
+                    elapsedTime += currentTimeMillis - lastExecute; //sobald Now erreicht wurde kann eigentlich schon return gemacht werden
+                    lastExecute = currentTimeMillis;
+                    stop = true;
+                } else if (currentTimeMillis > expireDate)
+                {
+                    elapsedTime += expireDate - lastExecute;
+                    lastExecute = expireDate;
+                }
+            }
+            if(isInfinite) reset();
+            stop = false;
+            if(wait > elapsedTime) return 0;
+            else return (elapsedTime - wait);
         }
         if (currentTimeMillis < expireDate) return (currentTimeMillis - lastExecute);
         if (currentTimeMillis >= expireDate) return (expireDate - lastExecute);
@@ -69,8 +107,9 @@ public abstract class Tasks implements Executeable
      */
     protected void reset()
     {
-        if (dailyTask) reset(1000 * 60 * 60 * 24);
-            //if(dailyTask) reset(3000);
+        if(uniqueDelay == true) delay = 0;
+        //setzt Task Start und Endpunkt 24 Stunden in die Zukunft, damit am nächsten Tag wieder ausgeführt wird  86400000 == 1 Tag
+        if(dailyTask) reset(86400000);
         else
         {
             long diff = expireDate - startDate;

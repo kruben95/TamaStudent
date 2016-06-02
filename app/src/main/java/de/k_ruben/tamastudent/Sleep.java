@@ -54,7 +54,7 @@ public class Sleep extends Tasks
      * @param startDate             Anfangs-Uhrzeit
      * @param endDate               End-Uhrzeit
      * @param changeValueSleep      Der Wert, um den sich der Status in der Zeit ändern soll
-     * @param isInfinite            Ob die Aufgabe Täglich ausgeführt werden soll
+     * @param isInfinite            Ob die Aufgabe ewig/in einer Loop ausgeführt werden soll
      * @param calculateBack         Ob bereits verstrichene Zeit nachbrechnet werden soll, wenn die Aufgabe während der
      *                              angegebenen Laufzeit erstellt wird (einmaliges Problem beim erstellen, in der Regel nicht erwünscht -> false)
      */
@@ -63,16 +63,12 @@ public class Sleep extends Tasks
         this.klasse = "sleep";
         currentTimeMillis = System.currentTimeMillis();
         this.startDate = startDate;
-        this.lastExecute = startDate;
+        this.lastExecute = currentTimeMillis;
         this.expireDate = endDate;
         this.changeValueSleep = changeValueSleep;
         this.isInfinite = isInfinite;
         dailyTask = true;
-        if(calculateBack && startDate < currentTimeMillis && expireDate > currentTimeMillis)
-        {
-            //berechne den Wert der bereits verstrichenen Zeit
-            //currentTimeMillis - startDate
-        }
+        if(calculateBack && startDate < currentTimeMillis && expireDate > currentTimeMillis) this.lastExecute = startDate;
     }
 
     /**

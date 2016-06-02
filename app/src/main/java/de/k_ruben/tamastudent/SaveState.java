@@ -32,7 +32,9 @@ public class SaveState <T>
 
     public void saveObject(T item)
     {
-        // Evtl. erst alle bisherigen SharedPreferences löschen
+        //alle bisherigen SharedPreferences löschen
+        mPrefs.edit().clear().commit();
+
         Editor prefsEditor = mPrefs.edit();
         String json = gson.toJson(item);
         prefsEditor.putString(filename, json);
@@ -41,8 +43,10 @@ public class SaveState <T>
 
     public void saveLinkedList(LinkedList<Tasks> list)
     {
+        //alle bisherigen SharedPreferences löschen
+        mPrefs.edit().clear().commit();
+
         int length = list.size();
-        //Evtl. erst alle bisherigen SharedPreferences löschen
         for(int n = 0; n < length; n++)
         {
             Editor prefsEditor = mPrefs.edit();

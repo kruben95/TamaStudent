@@ -3,6 +3,7 @@
     package="de.k_ruben.tamastudent">
 
     <application
+        android:largeHeap="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

@@ -1,4 +1,5 @@
 package de.k_ruben.tamastudent;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity
         saveStudentState = new SaveState(this, "saveStatus");
 
         //Stats aktualisieren
-        //updateValues();     //später ersetzen durch Methode, die neue Werte seit App-Schließung berechnet
+        updateValues();     //später ersetzen durch Methode, die neue Werte seit App-Schließung berechnet
 
         thread.start();
     }
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity
     {
         public void run()
         {
-            //updateValues();
+            updateValues();
         }
     };
 
@@ -168,25 +169,25 @@ public class MainActivity extends AppCompatActivity
 
     void updateCircle(int n, ImageView circle){
         if(n > 90){
-            circle.setImageResource(R.drawable.kreis1);
+            circle.setBackgroundResource(R.drawable.kreis1);
         }else if(n > 80){
-            circle.setImageResource(R.drawable.kreis2);
+            circle.setBackgroundResource(R.drawable.kreis2);
         }else if(n > 70) {
-            circle.setImageResource(R.drawable.kreis3);
+            circle.setBackgroundResource(R.drawable.kreis3);
         }else if(n > 60){
-            circle.setImageResource(R.drawable.kreis4);
+            circle.setBackgroundResource(R.drawable.kreis4);
         }else if(n > 50){
-            circle.setImageResource(R.drawable.kreis5);
+            circle.setBackgroundResource(R.drawable.kreis5);
         }else if(n > 40){
-            circle.setImageResource(R.drawable.kreis6);
+            circle.setBackgroundResource(R.drawable.kreis6);
         }else if(n > 30){
-            circle.setImageResource(R.drawable.kreis7);
+            circle.setBackgroundResource(R.drawable.kreis7);
         }else if(n > 20){
-            circle.setImageResource(R.drawable.kreis8);
+            circle.setBackgroundResource(R.drawable.kreis8);
         }else if(n > 10){
-            circle.setImageResource(R.drawable.kreis9);
+            circle.setBackgroundResource(R.drawable.kreis9);
         }else
-            circle.setImageResource(R.drawable.kreis0);
+            circle.setBackgroundResource(R.drawable.kreis0);
     }
 
     void updateFace(double sleep, double eat, double entertainment, double uni, ImageView face){
@@ -217,7 +218,13 @@ public class MainActivity extends AppCompatActivity
         mainTaskList.add(sleep);
     }
 
-    //erstellt eine neue Aufgabe
+    public void decreaseSleep(View v)
+    {
+        //Innerhalb von 24 Std. soll Schlaf sich um 70 verringern 86400000 == 1 Tag
+        Tasks decreaseSleep = new Sleep((86400000), -70, true);
+        mainTaskList.add(decreaseSleep);
+    }
+
     public void energyDrink(View v)
     {
         Tasks energyDrink = new Sleep(1000, 20, false);
@@ -229,6 +236,13 @@ public class MainActivity extends AppCompatActivity
     {
         Tasks eat = new Hunger(1000, 20, false);
         mainTaskList.add(eat);
+    }
+
+    public void test(View v)
+    {
+        currentTimeMillis = System.currentTimeMillis();
+        Tasks test = new Sleep(currentTimeMillis-3000, currentTimeMillis+2000, 50, true, false);
+        mainTaskList.add(test);
     }
 
     public void save(View v)
