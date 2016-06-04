@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.Handler;
 
@@ -24,9 +25,7 @@ public class MainActivity extends AppCompatActivity
     SaveState saveTasksEntertainment;
     SaveState saveTasksEducation;
     SaveState<Student> saveStudentState;
-
-    //private Thread thread;
-    private Handler handler = new Handler();
+    Tasks testBubble = null;
 
     long currentTimeMillis;
 
@@ -34,6 +33,9 @@ public class MainActivity extends AppCompatActivity
     TextView sleep;
     TextView hunger;
     TextView entertainment;
+
+    TextView speechBubble;
+    LinearLayout speechBubbleContainer;
 
     ImageView sleepCircle;
     ImageView eatCircle;
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity
     private Boolean isFabOpen = false;
     //private FloatingActionButton fab,fab1,fab2;
     private Animation fab_open,fab_close,rotate_forward,rotate_backward;
+
+    //private Handler;
+    private Handler handler = new Handler();
+    private Handler handleSpeechBubble = new Handler();
 
     //Game-Loop in einem eigenen Thread
     public Thread thread = new Thread()
@@ -128,6 +134,9 @@ public class MainActivity extends AppCompatActivity
         studentFace = (ImageView) findViewById(R.id.face);
         studentBody = (ImageView) findViewById(R.id.body);
         uniCircle = (ImageView) findViewById(R.id.circleUni);
+
+        speechBubble = (TextView) findViewById(R.id.tvSpeechBubble);
+        speechBubbleContainer = (LinearLayout) findViewById(R.id.llSpeechBubble);
 
 
         saveTasksSleep = new SaveState(this, "saveTasksSleep");
@@ -214,7 +223,7 @@ public class MainActivity extends AppCompatActivity
     //erstellt eine neue Aufgabe
     public void sleep(View v)
     {
-        Tasks sleep = new Sleep((1000 * 10), 1, true);
+        Tasks sleep = new Sleep((3000), 1, true);
         mainTaskList.add(sleep);
     }
 
@@ -229,6 +238,7 @@ public class MainActivity extends AppCompatActivity
     {
         Tasks energyDrink = new Sleep(1000, 20, false);
         mainTaskList.add(energyDrink);
+        createSpeechBubble("Mmhhh lecker! Das hält mich die nächsten Stunden garantiert Wach!", 10000);
     }
 
     //erstellt eine neue Aufgabe
@@ -240,9 +250,13 @@ public class MainActivity extends AppCompatActivity
 
     public void test(View v)
     {
-        currentTimeMillis = System.currentTimeMillis();
-        Tasks test = new Sleep(currentTimeMillis-3000, currentTimeMillis+2000, 50, true, false);
-        mainTaskList.add(test);
+        createSpeechBubble("Dies ist ein Test", 10000);
+    }
+
+    public void createSpeechBubble(String text, int duration)
+    {
+        testBubble = new Message(text, duration, speechBubbleContainer, this);
+        mainTaskList.add(testBubble);
     }
 
     public void save(View v)

@@ -51,7 +51,7 @@ public class SaveState <T>
         {
             Editor prefsEditor = mPrefs.edit();
             String json = gson.toJson(list.get(n));
-            Log.d("ListItem" + n, json);
+            Log.d("Speichere ListItem" + n, json);
             prefsEditor.putString(filename + n, json);
             prefsEditor.commit();
         }
@@ -70,6 +70,7 @@ public class SaveState <T>
             try
             {
                 String json = mPrefs.getString(filename + i, "Nichts (mehr) gefunden");
+                Log.d("TAG", "Lade Task: " + json);
                 if(klasse == "sleep") list.add(gson.fromJson(json, Sleep.class));
                 //if(klasse == "food") list.add(gson.fromJson(json, Food.class));
                 //if(klasse == "entertainment") list.add(gson.fromJson(json, Entertainment.class));
