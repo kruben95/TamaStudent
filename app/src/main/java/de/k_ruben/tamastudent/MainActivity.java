@@ -1,11 +1,9 @@
 package de.k_ruben.tamastudent;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,8 +29,9 @@ public class MainActivity extends AppCompatActivity
 
 
     TextView sleep;
-    TextView hunger;
+    TextView food;
     TextView entertainment;
+    TextView education;
 
     TextView speechBubble;
     LinearLayout speechBubbleContainer;
@@ -124,9 +123,10 @@ public class MainActivity extends AppCompatActivity
         fab2.setOnClickListener(this);*/
 
         //TextView von Stats initialiseren
-        /*sleep = (TextView)findViewById(R.id.tvSleepValue);
-        hunger = (TextView)findViewById(R.id.tvHungerValue);
-        entertainment = (TextView)findViewById(R.id.tvEntertainmentValue);*/
+        sleep = (TextView)findViewById(R.id.tvSleepValue);
+        food = (TextView)findViewById(R.id.tvFoodValue);
+        entertainment = (TextView)findViewById(R.id.tvEntertainmentValue);
+        education = (TextView)findViewById(R.id.tvEducationValue);
 
         sleepCircle = (ImageView) findViewById(R.id.circleSleep);
         eatCircle = (ImageView) findViewById(R.id.circleEat);
@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity
 
         speechBubble = (TextView) findViewById(R.id.tvSpeechBubble);
         speechBubbleContainer = (LinearLayout) findViewById(R.id.llSpeechBubble);
-
 
         saveTasksSleep = new SaveState(this, "saveTasksSleep");
         //SaveState<Food> saveTasksFood = new SaveState(this, "saveTasksFoodState");
@@ -163,9 +162,10 @@ public class MainActivity extends AppCompatActivity
     //Ubdated Werte auf dem Display
     public void updateValues()
     {
-        /*sleep.setText(Integer.toString((int)Math.round(s.getSleepValue())));
-        hunger.setText(Integer.toString((int)Math.round(s.getHungerValue())));
-        entertainment.setText(Integer.toString((int)Math.round(s.getEntertainmentValue())));*/
+        sleep.setText(Integer.toString((int)Math.round(s.getSleepValue())));
+        food.setText(Integer.toString((int)Math.round(s.getHungerValue())));
+        entertainment.setText(Integer.toString((int)Math.round(s.getEntertainmentValue())));
+        education.setText(Integer.toString((int)Math.round(s.getUniValue())));
 
         updateCircle((int)Math.round(s.getSleepValue()), sleepCircle);
         updateCircle((int)Math.round(s.getEntertainmentValue()), entertainmentCircle);
@@ -259,6 +259,11 @@ public class MainActivity extends AppCompatActivity
         mainTaskList.add(testBubble);
     }
 
+    public void closeSpeechBubble(View v)
+    {
+        speechBubbleContainer.setVisibility(View.GONE);
+    }
+
     public void save(View v)
     {
         LinkedList<Tasks> saveTaskList = mainTaskList;
@@ -289,7 +294,7 @@ public class MainActivity extends AppCompatActivity
     {
         //Spielstand laden
         pause = false;
-        s = saveStudentState.loadObject();
+        s = saveStudentState.loadStudentObject();
         mainTaskList.clear();
         addToMainList(saveTasksSleep.loadAllTasks("sleep"));
     }

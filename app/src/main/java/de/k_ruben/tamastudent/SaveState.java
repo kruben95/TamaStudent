@@ -19,14 +19,12 @@ public class SaveState <T>
 {
     //Convert User object  user to Json format
     Gson gson = new Gson();
-    Context context;
     public String filename = "";
     SharedPreferences mPrefs;
 
     public SaveState(Context context, String filename)
     {
         this.filename = filename;
-        this.context = context;
         mPrefs = context.getSharedPreferences(filename, context.MODE_PRIVATE);
     }
 
@@ -86,7 +84,7 @@ public class SaveState <T>
         return list;
     }
 
-    public Student loadObject()
+    public Student loadStudentObject()
     {
         try
         {

@@ -146,6 +146,58 @@
         android:layout_alignStart="@+id/body"
         android:onClick="test"/>
 
+    <TextView
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="0"
+        android:id="@+id/tvEducationValue"
+        android:layout_marginBottom="2dp"
+        android:layout_alignBottom="@+id/circleUni"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toRightOf="@+id/circleUni"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="0"
+        android:id="@+id/tvEntertainmentValue"
+        android:layout_marginBottom="2dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/circleEntertainment"
+        android:layout_toRightOf="@+id/circleEntertainment"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="0"
+        android:id="@+id/tvFoodValue"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="2dp"
+        android:layout_alignBottom="@+id/circleEat"
+        android:layout_toRightOf="@+id/circleEat"
+        android:textAlignment="center"/>
+
+    <TextView
+        android:layout_width="65dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="0"
+        android:id="@+id/tvSleepValue"
+        android:layout_alignBottom="@+id/circleSleep"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="2dp"
+        android:layout_toRightOf="@+id/circleSleep"
+        android:textAlignment="center"/>
+
     <!--  <android.support.design.widget.FloatingActionButton
           android:id="@+id/fab2"
           android:layout_width="wrap_content"
