@@ -18,12 +18,14 @@ public class MainActivity extends AppCompatActivity
     LinkedList<Tasks> mainTaskList = new LinkedList<Tasks>();
     Student s = new Student();
     boolean pause = false;
+
     SaveState saveTasksSleep;
     SaveState saveTasksFood;
     SaveState saveTasksEntertainment;
     SaveState saveTasksEducation;
     SaveState<Student> saveStudentState;
-    Tasks testBubble = null;
+    SaveState saveSpeechBubblesText;
+    Tasks bubble = null;
 
     long currentTimeMillis;
 
@@ -61,6 +63,7 @@ public class MainActivity extends AppCompatActivity
 
             while(true)
             {
+                currentTimeMillis = System.currentTimeMillis();
                 try
                 {
                     //Iterriere durch die Liste
@@ -69,7 +72,7 @@ public class MainActivity extends AppCompatActivity
                         currentTask = mainTaskList.get(i);
 
                         //Ob die Aufgabe endlich ist und abgelaufen ist
-                        if (currentTask.isInfinite == false && currentTask.expireDate <= System.currentTimeMillis())
+                        if (currentTask.isInfinite == false && currentTask.expireDate <= currentTimeMillis)
                         {
                             Log.d("expire","Letzter Aufruf bevor expire");
                             currentTask.execute(s);
@@ -77,7 +80,7 @@ public class MainActivity extends AppCompatActivity
                             mainTaskList.remove(i);
                         }
                         //Ob die Aufgabe unendlich ist und abgelaufen ist
-                        else if (currentTask.isInfinite == true && currentTask.expireDate <= System.currentTimeMillis())
+                        else if (currentTask.isInfinite == true && currentTask.expireDate <= currentTimeMillis)
                         {
                             Log.d("reset", "letzter Aufruf bevor reset");
                             currentTask.execute(s);
@@ -89,6 +92,12 @@ public class MainActivity extends AppCompatActivity
                         {
                             currentTask.execute(s);
                         }
+                    }
+                    //Sprechblase updaten
+                    if(bubble != null)
+                    {
+                        bubble.execute(s);
+                        if(bubble.expireDate < currentTimeMillis) bubble = null;
                     }
                     //Rufe den Handler aus dem UI-Thread auf
                     handler.postDelayed(runnable, 0);
@@ -142,7 +151,16 @@ public class MainActivity extends AppCompatActivity
         //SaveState<Food> saveTasksFood = new SaveState(this, "saveTasksFoodState");
         //SaveState<Entertainment> saveTasksEntertainment = new SaveState(this, "saveTasksEntertainmentState");
         //SaveState<Education> saveTasksEducation = new SaveState(this, "saveTasksEducationState");
+        saveSpeechBubblesText = new SaveState(this, "saveSpeechBubbleText", true);
         saveStudentState = new SaveState(this, "saveStatus");
+
+        /*saveSpeechBubblesText.saveSpeechBubbleString("sleep", "Ghhhäääään.... Ab ins Bett mit mir.");
+        saveSpeechBubblesText.saveSpeechBubbleString("sleep", "Jetzt schnell ins Bett!");
+        saveSpeechBubblesText.saveSpeechBubbleString("sleep", "ich bin so müüüüde... schnell ins Bett");*/
+        /*saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "mhhhhh... Dieser Energy Drink macht mich wieder richtig wach!");
+        saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Diese Energy Drinks machen einen sofort wieder TOPFIT!");
+        saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Gleich hab ich wieder Energie zum lernen... oder fernsehgucken!");*/
+
 
         //Stats aktualisieren
         updateValues();     //später ersetzen durch Methode, die neue Werte seit App-Schließung berechnet
@@ -225,6 +243,7 @@ public class MainActivity extends AppCompatActivity
     {
         Tasks sleep = new Sleep((3000), 1, true);
         mainTaskList.add(sleep);
+        createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategorie("sleep"), 5000);
     }
 
     public void decreaseSleep(View v)
@@ -238,7 +257,7 @@ public class MainActivity extends AppCompatActivity
     {
         Tasks energyDrink = new Sleep(1000, 20, false);
         mainTaskList.add(energyDrink);
-        createSpeechBubble("Mmhhh lecker! Das hält mich die nächsten Stunden garantiert Wach!", 10000);
+        createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategorie("energyDrink"), 5000);
     }
 
     //erstellt eine neue Aufgabe
@@ -255,13 +274,14 @@ public class MainActivity extends AppCompatActivity
 
     public void createSpeechBubble(String text, int duration)
     {
-        testBubble = new Message(text, duration, speechBubbleContainer, this);
-        mainTaskList.add(testBubble);
+        bubble = new Message(text, duration, speechBubbleContainer, this);
+        //mainTaskList.add(bubble);
     }
 
     public void closeSpeechBubble(View v)
     {
         speechBubbleContainer.setVisibility(View.GONE);
+        bubble = null;
     }
 
     public void save(View v)

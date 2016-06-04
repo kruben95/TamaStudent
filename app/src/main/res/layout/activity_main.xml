@@ -117,7 +117,8 @@
         android:id="@+id/llSpeechBubble"
         android:gravity="top"
         android:layout_above="@+id/body"
-        android:layout_marginBottom="-80dp">
+        android:layout_marginBottom="-80dp"
+        android:onClick="closeSpeechBubble">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

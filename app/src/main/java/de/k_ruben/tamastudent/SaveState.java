@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 
 
 import java.util.LinkedList;
+import java.util.Random;
 
 
 /**
@@ -19,13 +20,24 @@ public class SaveState <T>
 {
     //Convert User object  user to Json format
     Gson gson = new Gson();
-    public String filename = "";
-    SharedPreferences mPrefs;
+    private String filename = "";
+    private SharedPreferences mPrefs;
+    private SharedPreferences nPrefs;
 
     public SaveState(Context context, String filename)
     {
         this.filename = filename;
         mPrefs = context.getSharedPreferences(filename, context.MODE_PRIVATE);
+    }
+
+    public SaveState(Context context, String filename, boolean isSpeechBubble)
+    {
+        if(isSpeechBubble)
+        {
+            this.filename = filename;
+            mPrefs = context.getSharedPreferences(filename, context.MODE_PRIVATE);
+            nPrefs = context.getSharedPreferences("saveSpeechBubbleCategories", context.MODE_PRIVATE);
+        }
     }
 
     public void saveObject(T item)
@@ -37,6 +49,39 @@ public class SaveState <T>
         String json = gson.toJson(item);
         prefsEditor.putString(filename, json);
         prefsEditor.commit();
+    }
+
+    public void saveSpeechBubbleString(String categorieName, String text)
+    {
+        //anzahl an items einer Kategorie auslesen
+        int lastItemNumber = nPrefs.getInt(categorieName, -1);
+        Log.d("TAG","Anzahl items von " + categorieName + ": " + lastItemNumber);
+
+        //String mit ingenutzter id speichern
+        Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString(categorieName + (lastItemNumber + 1), text);
+        prefsEditor.commit();
+
+        //anzahl items einer Kategorie updaten
+        prefsEditor = nPrefs.edit();
+        prefsEditor.putInt(categorieName, lastItemNumber + 1);
+        prefsEditor.commit();
+    }
+
+    public String loadSpeechBubbleString(String categorieName, int index)
+    {
+        return (mPrefs.getString(categorieName + index, "Fehler"));
+    }
+
+    public int loadAmountOfSpeechBubblesInCategorie(String categorieName)
+    {
+        return (nPrefs.getInt(categorieName, -1));
+    }
+
+    public String loadRandomSpeechBubbleFromCategorie(String categorieName)
+    {
+        Random r = new Random();
+        return loadSpeechBubbleString(categorieName, r.nextInt(loadAmountOfSpeechBubblesInCategorie(categorieName)+1));
     }
 
     public void saveLinkedList(LinkedList<Tasks> list)
