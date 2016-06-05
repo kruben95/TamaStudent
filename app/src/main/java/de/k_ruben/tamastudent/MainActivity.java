@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity
 
         /*saveSpeechBubblesText.saveSpeechBubbleString("sleep", "Ghhhäääään.... Ab ins Bett mit mir.");
         saveSpeechBubblesText.saveSpeechBubbleString("sleep", "Jetzt schnell ins Bett!");
-        saveSpeechBubblesText.saveSpeechBubbleString("sleep", "ich bin so müüüüde... schnell ins Bett");*/
-        /*saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "mhhhhh... Dieser Energy Drink macht mich wieder richtig wach!");
+        saveSpeechBubblesText.saveSpeechBubbleString("sleep", "ich bin so müüüüde... schnell ins Bett");
+        saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "mhhhhh... Dieser Energy Drink macht mich wieder richtig wach!");
         saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Diese Energy Drinks machen einen sofort wieder TOPFIT!");
         saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Gleich hab ich wieder Energie zum lernen... oder fernsehgucken!");*/
 
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity
     {
         Tasks sleep = new Sleep((3000), 1, true);
         mainTaskList.add(sleep);
-        createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategorie("sleep"), 5000);
+        //createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategorie("sleep"), 5000);
     }
 
     public void decreaseSleep(View v)
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity
     {
         Tasks energyDrink = new Sleep(1000, 20, false);
         mainTaskList.add(energyDrink);
-        createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategorie("energyDrink"), 5000);
+        //createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategorie("energyDrink"), 5000);
     }
 
     //erstellt eine neue Aufgabe
