@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     SaveState saveTasksEducation;
     SaveState<Student> saveStudentState;
     SaveState saveSpeechBubblesText;
+    SaveState<String> saveTest;
     Tasks bubble = null;
 
     long currentTimeMillis;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     TextView food;
     TextView entertainment;
     TextView education;
+    TextView highscore;
 
     TextView speechBubble;
     LinearLayout speechBubbleContainer;
@@ -137,6 +139,8 @@ public class MainActivity extends AppCompatActivity
         food = (TextView)findViewById(R.id.tvFoodValue);
         entertainment = (TextView)findViewById(R.id.tvEntertainmentValue);
         education = (TextView)findViewById(R.id.tvEducationValue);
+        highscore = (TextView)findViewById(R.id.tvHighScore);
+        ((TextView) findViewById(R.id.tvStudentName)).setText("Student " + s.name);
 
         sleepCircle = (LinearLayout) findViewById(R.id.circleSleepSize);
         foodCircle = (LinearLayout) findViewById(R.id.circleFoodSize);
@@ -154,6 +158,7 @@ public class MainActivity extends AppCompatActivity
         //SaveState<Education> saveTasksEducation = new SaveState(this, "saveTasksEducationState");
         saveSpeechBubblesText = new SaveState(this, "saveSpeechBubbleText", true);
         saveStudentState = new SaveState(this, "saveStatus");
+        saveTest = new SaveState<String>(this, "test");
 
         /*saveSpeechBubblesText.saveSpeechBubbleString("sleep", "Ghhhäääään.... Ab ins Bett mit mir.");
         saveSpeechBubblesText.saveSpeechBubbleString("sleep", "Jetzt schnell ins Bett!");
@@ -162,9 +167,10 @@ public class MainActivity extends AppCompatActivity
         saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Diese Energy Drinks machen einen sofort wieder TOPFIT!");
         saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Gleich hab ich wieder Energie zum lernen... oder fernsehgucken!");*/
 
+        Log.d("TAG", "--------------------------Test: " + saveTest.loadSpeechBubbleString("test", 0));
 
         //Stats aktualisieren
-        updateValues();     //später ersetzen durch Methode, die neue Werte seit App-Schließung berechnet
+        updateValues();
 
         thread.start();
     }
@@ -185,6 +191,8 @@ public class MainActivity extends AppCompatActivity
         food.setText(Integer.toString((int)Math.round(s.getHungerValue())));
         entertainment.setText(Integer.toString((int)Math.round(s.getEntertainmentValue())));
         education.setText(Integer.toString((int)Math.round(s.getUniValue())));
+
+        highscore.setText("Highscore: " + s.getHighscore());
 
         updateCircle((int)Math.round(s.getSleepValue()), sleepCircle);
         updateCircle((int)Math.round(s.getEntertainmentValue()), entertainmentCircle);
@@ -231,7 +239,7 @@ public class MainActivity extends AppCompatActivity
     {
         Tasks sleep = new Sleep((3000), 1, true);
         mainTaskList.add(sleep);
-        //createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategorie("sleep"), 5000);
+        createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategory("sleep"), 5000);
     }
 
     public void decreaseSleep(View v)
@@ -245,7 +253,7 @@ public class MainActivity extends AppCompatActivity
     {
         Tasks energyDrink = new Sleep(1000, 20, false);
         mainTaskList.add(energyDrink);
-        //createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategorie("energyDrink"), 5000);
+        createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategory("energyDrink"), 5000);
     }
 
     //erstellt eine neue Aufgabe

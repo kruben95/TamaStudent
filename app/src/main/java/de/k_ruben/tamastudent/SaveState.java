@@ -73,15 +73,15 @@ public class SaveState <T>
         return (mPrefs.getString(categorieName + index, "Fehler"));
     }
 
-    public int loadAmountOfSpeechBubblesInCategorie(String categorieName)
+    public int loadAmountOfSpeechBubblesInCategory(String categorieName)
     {
         return (nPrefs.getInt(categorieName, -1));
     }
 
-    public String loadRandomSpeechBubbleFromCategorie(String categorieName)
+    public String loadRandomSpeechBubbleFromCategory(String categorieName)
     {
         Random r = new Random();
-        return loadSpeechBubbleString(categorieName, r.nextInt(loadAmountOfSpeechBubblesInCategorie(categorieName)+1));
+        return loadSpeechBubbleString(categorieName, r.nextInt(loadAmountOfSpeechBubblesInCategory(categorieName)+1));
     }
 
     public void saveLinkedList(LinkedList<Tasks> list)

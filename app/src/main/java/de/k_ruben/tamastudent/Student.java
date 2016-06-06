@@ -11,6 +11,7 @@ public class Student
     public double hunger;
     public double uni;
     public double entertainment;
+    public long startDate;
 
     public boolean isSleeping;
     public boolean isEating;
@@ -33,6 +34,7 @@ public class Student
             this.hunger = 20;
             this.uni = 35;
             this.entertainment = 42;
+            this.startDate = System.currentTimeMillis();
         }
     }
 
@@ -119,6 +121,11 @@ public class Student
     double getUniValue()
     {
         return uni;
+    }
+
+    int getHighscore()
+    {
+        return (int) ((System.currentTimeMillis() - startDate)/1000/60/60);
     }
 }
 

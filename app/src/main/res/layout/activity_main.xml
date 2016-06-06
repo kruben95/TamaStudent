@@ -72,15 +72,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/roundcorner"
-        android:layout_toLeftOf="@+id/body"
+        android:layout_toLeftOf="@+id/face"
         android:layout_toStartOf="@+id/body"
         android:layout_marginRight="-20dp"
         android:visibility="gone"
         android:id="@+id/llSpeechBubble"
-        android:gravity="top"
-        android:layout_above="@+id/body"
-        android:layout_marginBottom="-80dp"
-        android:onClick="closeSpeechBubble">
+        android:layout_above="@+id/face"
+        android:onClick="closeSpeechBubble"
+        android:gravity="end"
+        android:layout_marginBottom="-100dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -104,10 +104,10 @@
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/body"
-        android:layout_alignStart="@+id/body"
-        android:onClick="test"/>
+        android:onClick="test"
+        android:layout_above="@+id/circleEntertainment"
+        android:layout_alignRight="@+id/btnSleep"
+        android:layout_alignEnd="@+id/btnSleep"/>
 
     <LinearLayout
         android:layout_width="65dp"
@@ -117,7 +117,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="5dp">>
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp">>
         <LinearLayout
             android:layout_width="65dp"
             android:layout_height="65dp"
@@ -161,7 +163,8 @@
         android:layout_below="@+id/circleSleep"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="5dp">>
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp">>
         <LinearLayout
             android:layout_width="65dp"
             android:layout_height="65dp"
@@ -204,7 +207,8 @@
         android:layout_below="@+id/circleFood"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="5dp">>
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp">>
         <LinearLayout
             android:layout_width="65dp"
             android:layout_height="65dp"
@@ -246,7 +250,8 @@
         android:id="@+id/circleEducation"
         android:layout_below="@+id/circleEntertainment"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp">
 
         <LinearLayout
             android:layout_width="65dp"
@@ -282,6 +287,27 @@
             android:layout_marginLeft="-65dp"/>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Student Name"
+        android:id="@+id/tvStudentName"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Highscroe: 0"
+        android:id="@+id/tvHighScore"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="5dp"/>
 
     <!--  <android.support.design.widget.FloatingActionButton
           android:id="@+id/fab2"
