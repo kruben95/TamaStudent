@@ -7,8 +7,7 @@
                 android:minWidth="100dp"
                 android:background="@drawable/backgroundroom"
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                android:textAlignment="center"
-    >
+                android:textAlignment="center">
 
     <Button
         android:layout_width="wrap_content"
@@ -19,34 +18,6 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="false"/>
-
-    <ImageView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:id="@+id/circleEntertainment"
-        android:layout_below="@+id/circleEat"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:contentDescription="Entertainment Value"
-        android:background="@drawable/kreis0"/>
-
-    <ImageView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:id="@+id/circleEat"
-        android:layout_below="@+id/circleSleep"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/kreis0"/>
-
-    <ImageView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:id="@+id/circleSleep"
-        android:background="@drawable/kreis0"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        />
 
     <Button
         android:layout_width="wrap_content"
@@ -79,14 +50,6 @@
         android:onClick="load"/>
 
     <ImageView
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:id="@+id/circleUni"
-        android:layout_centerVertical="true"
-        android:layout_below="@+id/circleEntertainment"
-        android:background="@drawable/kreis0"/>
-
-    <ImageView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/body"
@@ -103,7 +66,6 @@
         android:nestedScrollingEnabled="false"
         android:adjustViewBounds="false"
         android:src="@drawable/studihead2"
-        android:layout_below="@+id/circleSleep"
         android:layout_centerHorizontal="true"/>
 
     <LinearLayout
@@ -147,57 +109,179 @@
         android:layout_alignStart="@+id/body"
         android:onClick="test"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0"
-        android:id="@+id/tvEducationValue"
-        android:layout_marginBottom="2dp"
-        android:layout_alignBottom="@+id/circleUni"
+        android:layout_height="65dp"
+        android:background="@drawable/circleborder"
+        android:id="@+id/circleSleep"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_toRightOf="@+id/circleUni"
-        android:textAlignment="center"/>
+        android:layout_marginBottom="5dp">>
+        <LinearLayout
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:id="@+id/circleSleepSize">
 
-    <TextView
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0"
-        android:id="@+id/tvEntertainmentValue"
-        android:layout_marginBottom="2dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignBottom="@+id/circleEntertainment"
-        android:layout_toRightOf="@+id/circleEntertainment"
-        android:textAlignment="center"/>
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:background="@drawable/circlefill"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginBottom="1dp">
 
-    <TextView
-        android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0"
-        android:id="@+id/tvFoodValue"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="2dp"
-        android:layout_alignBottom="@+id/circleEat"
-        android:layout_toRightOf="@+id/circleEat"
-        android:textAlignment="center"/>
+            </LinearLayout>
 
-    <TextView
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="0"
+            android:id="@+id/tvSleepValue"
+            android:layout_alignBottom="@+id/circleSleepSize"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="2dp"
+            android:layout_toRightOf="@+id/circleSleepSize"
+            android:textAlignment="center"
+            android:layout_gravity="left|bottom|center_horizontal"
+            android:layout_marginLeft="-65dp"/>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="65dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="0"
-        android:id="@+id/tvSleepValue"
-        android:layout_alignBottom="@+id/circleSleep"
+        android:layout_height="65dp"
+        android:background="@drawable/circleborder"
+        android:id="@+id/circleFood"
+        android:layout_below="@+id/circleSleep"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="2dp"
-        android:layout_toRightOf="@+id/circleSleep"
-        android:textAlignment="center"/>
+        android:layout_marginBottom="5dp">>
+        <LinearLayout
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:id="@+id/circleFoodSize">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:background="@drawable/circlefill"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginBottom="1dp">
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="0"
+            android:id="@+id/tvFoodValue"
+            android:layout_alignBottom="@+id/circleSleepSize"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="2dp"
+            android:layout_toRightOf="@+id/circleSleepSize"
+            android:textAlignment="center"
+            android:layout_gravity="left|bottom|center_horizontal"
+            android:layout_marginLeft="-65dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:background="@drawable/circleborder"
+        android:id="@+id/circleEntertainment"
+        android:layout_below="@+id/circleFood"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp">>
+        <LinearLayout
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:id="@+id/circleEntertainemtSize">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:background="@drawable/circlefill"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginBottom="1dp">
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="0"
+            android:id="@+id/tvEntertainmentValue"
+            android:layout_alignBottom="@+id/circleSleepSize"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="2dp"
+            android:layout_toRightOf="@+id/circleSleepSize"
+            android:textAlignment="center"
+            android:layout_gravity="left|bottom|center_horizontal"
+            android:layout_marginLeft="-65dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:background="@drawable/circleborder"
+        android:id="@+id/circleEducation"
+        android:layout_below="@+id/circleEntertainment"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:id="@+id/circleEducationSize">
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="63dp"
+                android:background="@drawable/circlefill"
+                android:layout_marginTop="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginBottom="1dp">
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="0"
+            android:id="@+id/tvEducationValue"
+            android:layout_alignBottom="@+id/circleSleepSize"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="2dp"
+            android:layout_toRightOf="@+id/circleSleepSize"
+            android:textAlignment="center"
+            android:layout_gravity="left|bottom|center_horizontal"
+            android:layout_marginLeft="-65dp"/>
+
+    </LinearLayout>
 
     <!--  <android.support.design.widget.FloatingActionButton
           android:id="@+id/fab2"

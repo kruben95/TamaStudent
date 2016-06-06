@@ -1,4 +1,5 @@
 package de.k_ruben.tamastudent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,10 +39,10 @@ public class MainActivity extends AppCompatActivity
     TextView speechBubble;
     LinearLayout speechBubbleContainer;
 
-    ImageView sleepCircle;
-    ImageView eatCircle;
-    ImageView entertainmentCircle;
-    ImageView uniCircle;
+    LinearLayout sleepCircle;
+    LinearLayout foodCircle;
+    LinearLayout entertainmentCircle;
+    LinearLayout educationCircle;
     ImageView studentFace;
     ImageView studentBody;
 
@@ -137,12 +138,12 @@ public class MainActivity extends AppCompatActivity
         entertainment = (TextView)findViewById(R.id.tvEntertainmentValue);
         education = (TextView)findViewById(R.id.tvEducationValue);
 
-        sleepCircle = (ImageView) findViewById(R.id.circleSleep);
-        eatCircle = (ImageView) findViewById(R.id.circleEat);
-        entertainmentCircle = (ImageView) findViewById(R.id.circleEntertainment);
+        sleepCircle = (LinearLayout) findViewById(R.id.circleSleepSize);
+        foodCircle = (LinearLayout) findViewById(R.id.circleFoodSize);
+        entertainmentCircle = (LinearLayout) findViewById(R.id.circleEntertainemtSize);
+        educationCircle = (LinearLayout) findViewById(R.id.circleEducationSize);
         studentFace = (ImageView) findViewById(R.id.face);
         studentBody = (ImageView) findViewById(R.id.body);
-        uniCircle = (ImageView) findViewById(R.id.circleUni);
 
         speechBubble = (TextView) findViewById(R.id.tvSpeechBubble);
         speechBubbleContainer = (LinearLayout) findViewById(R.id.llSpeechBubble);
@@ -187,34 +188,21 @@ public class MainActivity extends AppCompatActivity
 
         updateCircle((int)Math.round(s.getSleepValue()), sleepCircle);
         updateCircle((int)Math.round(s.getEntertainmentValue()), entertainmentCircle);
-        updateCircle((int)Math.round(s.getHungerValue()), eatCircle);
-        updateCircle((int)Math.round(s.getUniValue()), uniCircle);
+        updateCircle((int)Math.round(s.getHungerValue()), foodCircle);
+        updateCircle((int)Math.round(s.getUniValue()), educationCircle);
 
         updateFace((int)Math.round(s.getSleepValue()),(int)Math.round(s.getHungerValue()),
                 (int)Math.round(s.getEntertainmentValue()),(int)Math.round(s.getUniValue()), studentFace );
     }
 
-    void updateCircle(int n, ImageView circle){
-        if(n > 90){
-            circle.setBackgroundResource(R.drawable.kreis1);
-        }else if(n > 80){
-            circle.setBackgroundResource(R.drawable.kreis2);
-        }else if(n > 70) {
-            circle.setBackgroundResource(R.drawable.kreis3);
-        }else if(n > 60){
-            circle.setBackgroundResource(R.drawable.kreis4);
-        }else if(n > 50){
-            circle.setBackgroundResource(R.drawable.kreis5);
-        }else if(n > 40){
-            circle.setBackgroundResource(R.drawable.kreis6);
-        }else if(n > 30){
-            circle.setBackgroundResource(R.drawable.kreis7);
-        }else if(n > 20){
-            circle.setBackgroundResource(R.drawable.kreis8);
-        }else if(n > 10){
-            circle.setBackgroundResource(R.drawable.kreis9);
-        }else
-            circle.setBackgroundResource(R.drawable.kreis0);
+    void updateCircle(float n, LinearLayout circle){
+        float size = circle.getWidth();
+        //Log.d("TAG", "current Circle size: " + size + " Prozent: " + n);
+        size = (float)Math.round(size * (n / 100));
+        //Log.d("TAG","new Circle size: " + size);
+
+        circle.getLayoutParams().height = (int)size;
+        circle.requestLayout();
     }
 
     void updateFace(double sleep, double eat, double entertainment, double uni, ImageView face){
