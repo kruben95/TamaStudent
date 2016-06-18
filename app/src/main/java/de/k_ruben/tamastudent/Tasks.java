@@ -20,6 +20,8 @@ public abstract class Tasks implements Executeable
     boolean uniqueDelay = true;
     //Ob die Aufgabe Täglich stattfinden soll (Exklusiv für Aufgaben mit festen Start- und Endpunkten
     boolean dailyTask = false;
+    //Makierung, ob die Aufgabe gelöscht werden soll.
+    boolean deleteFlag = false;
 
     int delay = 0;
 

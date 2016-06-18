@@ -1,5 +1,7 @@
 package de.k_ruben.tamastudent;
 
+import android.util.Log;
+
 /**
  * Created by Ruben on 08.06.2016.
  */
@@ -84,6 +86,19 @@ public class Education extends Tasks
             changeValue = calculateChangeValue(changeValueEducation);
             s.changeEducationValue(changeValue);
             lastExecute = currentTimeMillis;
+        }
+
+        //Ob die Aufgabe endlich ist und abgelaufen ist
+        if (isInfinite == false && expireDate <= currentTimeMillis)
+        {
+            Log.d("expire","Letzter Aufruf bevor expire");
+            deleteFlag = true;
+        }
+        //Ob die Aufgabe unendlich ist und abgelaufen ist
+        else if (isInfinite == true && expireDate <= currentTimeMillis)
+        {
+            Log.d("reset", "letzter Aufruf bevor reset");
+            reset();
         }
     }
 }

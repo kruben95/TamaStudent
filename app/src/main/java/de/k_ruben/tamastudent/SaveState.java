@@ -114,7 +114,7 @@ public class SaveState <T>
             {
                 String json = mPrefs.getString(filename + i, "Nichts (mehr) gefunden");
                 Log.d("TAG", "Lade Task: " + json + ", Filename: " + filename);
-                if(klasse == "sleep") list.add(gson.fromJson(json, Sleep.class));
+                if(klasse == "sleep1H") list.add(gson.fromJson(json, Sleep.class));
                 if(klasse == "food") list.add(gson.fromJson(json, Food.class));
                 if(klasse == "entertainment") list.add(gson.fromJson(json, Entertainment.class));
                 if(klasse == "education") list.add(gson.fromJson(json, Education.class));

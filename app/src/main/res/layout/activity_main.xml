@@ -7,7 +7,8 @@
                 android:minWidth="100dp"
                 android:background="@drawable/backgroundroom"
                 xmlns:android="http://schemas.android.com/apk/res/android"
-                android:textAlignment="center">
+                android:textAlignment="center"
+                android:id="@+id/room">
 
     <ImageView
         android:layout_width="150dp"
@@ -276,12 +277,12 @@
         android:fitsSystemWindows="false"
         tools:context=".MainActivity"
         android:id="@+id/sleepView"
-        android:layout_above="@+id/foodView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="5dp"
         android:paddingBottom="5dp"
-        >
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="5dp">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabUVsleepTwelveHours"
@@ -294,7 +295,7 @@
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         android:src="@drawable/timetwelve"
-        android:onClick="sleep"/>
+        android:onClick="sleep1H"/>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabUVsleepFiveHours"
         android:layout_width="wrap_content"
@@ -306,7 +307,7 @@
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         android:src="@drawable/timefive"
-        android:onClick="sleep"/>
+        android:onClick="sleep1H"/>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabUVsleepThreeHours"
         android:layout_width="wrap_content"
@@ -318,7 +319,7 @@
         app:elevation="6dp"
         app:pressedTranslationZ="12dp"
         android:src="@drawable/timethree"
-        android:onClick="sleep"/>
+        android:onClick="sleep1H"/>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabUVsleepOneHours"
         android:layout_width="wrap_content"
@@ -331,7 +332,7 @@
         app:pressedTranslationZ="12dp"
         android:src="@drawable/timeone"
         android:nestedScrollingEnabled="true"
-        android:onClick="sleep" />
+        android:onClick="sleep1H" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabOVsleep"
         android:layout_width="wrap_content"
@@ -339,7 +340,6 @@
         android:layout_marginRight="16dp"
         android:layout_gravity="bottom|end"
         app:elevation="6dp"
-        app:backgroundTint="@color/colorAccent"
         app:pressedTranslationZ="12dp"
         android:src="@drawable/bed" />
 
@@ -359,11 +359,11 @@
         android:fitsSystemWindows="false"
         tools:context=".MainActivity"
         android:id="@+id/foodView"
-        android:layout_above="@+id/drinksView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
-        android:paddingBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/sleepView">
 
 
         <android.support.design.widget.FloatingActionButton
@@ -413,11 +413,11 @@
         android:fitsSystemWindows="false"
         tools:context=".MainActivity"
         android:id="@+id/drinksView"
-        android:layout_above="@+id/saveView"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
-        android:paddingBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:paddingBottom="5dp"
+        android:layout_below="@+id/foodView">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabUVenergydrink"
@@ -479,7 +479,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:paddingBottom="5dp"
-        android:layout_above="@+id/tvHighScore">
+        android:layout_below="@+id/drinksView"
+        android:layout_marginBottom="5dp">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabUVdownload"
@@ -518,6 +519,26 @@
             android:src="@drawable/ic_add" />
 
         </android.support.design.widget.CoordinatorLayout>
-    -->
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/saveView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="17dp"
+        android:background="@drawable/locationbutton">
+
+        <Button
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:id="@+id/btnSwitchLocation"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="true"
+            android:background="#00ffffff"
+            android:onClick="studieren"/>
+    </RelativeLayout>
 
 </RelativeLayout>

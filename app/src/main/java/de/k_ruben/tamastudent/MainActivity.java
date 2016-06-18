@@ -1,5 +1,5 @@
 package de.k_ruben.tamastudent;
-import android.support.v7.app.ActionBar;
+import android.content.res.ColorStateList;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.os.Handler;
-import android.widget.Toast;
 
 import android.view.animation.AnimationUtils;
 import android.support.design.widget.FloatingActionButton;
@@ -50,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout educationCircle;
     ImageView studentFace;
     ImageView studentBody;
+
+    Tasks sleeping = null;
+    Tasks inUni = null;
 
 
     //***********  FLOATING ACTION BUTTONS ******************//
@@ -94,28 +96,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     for (int i = 0; i < mainTaskList.size(); i++)
                     {
                         currentTask = mainTaskList.get(i);
-
-                        //Ob die Aufgabe endlich ist und abgelaufen ist
-                        if (currentTask.isInfinite == false && currentTask.expireDate <= currentTimeMillis)
+                        if(currentTask.deleteFlag)
                         {
-                            Log.d("expire","Letzter Aufruf bevor expire");
-                            currentTask.execute(s);
+                            Log.d("TAG", "Aufgabe wird entfernt");
                             Log.d("Status", "Schlaf: " + s.getSleepValue() + " Hunger: " + s.getHungerValue() + " Unterhaltung: " + s.getEntertainmentValue() + " Bildung: " + s.getEducationValue());
+                            //Aufgabe entfernen
                             mainTaskList.remove(i);
+                            currentTask = null;
                         }
-                        //Ob die Aufgabe unendlich ist und abgelaufen ist
-                        else if (currentTask.isInfinite == true && currentTask.expireDate <= currentTimeMillis)
-                        {
-                            Log.d("reset", "letzter Aufruf bevor reset");
-                            currentTask.execute(s);
-                            Log.d("Status", "Schlaf: " + s.getSleepValue() + " Hunger: " + s.getHungerValue() + " Unterhaltung: " + s.getEntertainmentValue() + " Bildung: " + s.getEducationValue());
-                            currentTask.reset();
-                        }
-                        //Führe die Aufgabe aus
-                        else
-                        {
-                            currentTask.execute(s);
-                        }
+                        else currentTask.execute(s);
                     }
                     //Sprechblase updaten
                     if(bubble != null)
@@ -123,7 +112,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         bubble.execute(s);
                         if(bubble.expireDate < currentTimeMillis) bubble = null;
                     }
-                    //Rufe den Handler aus dem UI-Thread auf
+
+                    //Rufe den Handler aus dem UI-Thread auf um UI-Elemente zu Updaten (Status-Kreis)
                     handler.postDelayed(runnable, 0);
                     if(pause) mainTaskList.clear();
                     Thread.sleep(100);
@@ -224,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         saveStudentState = new SaveState(this, "saveStatus");
 
+        //Überprüfen, ob die App das erste mal nach der Installation gestartet wird, wenn ja, werden Dateien in SharedPreferences angelegt
         if(saveSpeechBubblesText.loadAmountOfSpeechBubblesInCategory("energyDrink") == -1)initializeFirstStart();
 
         //Stats aktualisieren
@@ -256,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         updateCircle((int)Math.round(s.getHungerValue()), foodCircle);
         updateCircle((int)Math.round(s.getEducationValue()), educationCircle);
 
-        updateFace((int)Math.round(s.getSleepValue()),(int)Math.round(s.getHungerValue()),
+        updateStudent((int)Math.round(s.getSleepValue()),(int)Math.round(s.getHungerValue()),
                 (int)Math.round(s.getEntertainmentValue()),(int)Math.round(s.getEducationValue()), studentFace );
     }
 
@@ -270,33 +261,117 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         circle.requestLayout();
     }
 
-    void updateFace(double sleep, double eat, double entertainment, double uni, ImageView face){
+    void updateStudent(double sleep, double eat, double entertainment, double uni, ImageView face){
 
         double n = (sleep + eat + entertainment + uni)/4;
 
-        if(n > 90){
-            face.setImageResource(R.drawable.studihead2);
-        }else if(n > 80){
-            face.setImageResource(R.drawable.studihead2);
-        }else if(n > 60) {
-            face.setImageResource(R.drawable.studihead3);
-        }else if(n > 40){
-            face.setImageResource(R.drawable.studihead4);
-        }else if(n > 20){
-            face.setImageResource(R.drawable.studihead5);
-        }else if(n > 10){
-            face.setImageResource(R.drawable.studihead6);
-        }else
-            face.setImageResource(R.drawable.studihead6red);
-
+        if(sleeping == null)
+        {
+            if (n > 90)
+            {
+                face.setImageResource(R.drawable.studihead2);
+            } else if (n > 80)
+            {
+                face.setImageResource(R.drawable.studihead2);
+            } else if (n > 60)
+            {
+                face.setImageResource(R.drawable.studihead3);
+            } else if (n > 40)
+            {
+                face.setImageResource(R.drawable.studihead4);
+            } else if (n > 20)
+            {
+                face.setImageResource(R.drawable.studihead5);
+            } else if (n > 10)
+            {
+                face.setImageResource(R.drawable.studihead6);
+            } else face.setImageResource(R.drawable.studihead6red);
+        }
     }
 
-    //erstellt eine neue Aufgabe
-    public void sleep(View v)
+    /******************************** Tasks/Aufgaben werden hier erstellt *****************************************************/
+    public void studieren(View v)
     {
-        Tasks sleep = new Sleep((3000), 1, true);
-        mainTaskList.add(sleep);
+        studieren();
+    }
+
+    public void studieren()
+    {
+        if(sleeping == null)
+        {
+            //5 Stunden uni
+            inUni = new Education(18000000, 5, false);
+            mainTaskList.add(inUni);
+            findViewById(R.id.room).setBackgroundResource(R.drawable.backgroundhsd);
+            //createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategory("uni"), 5000);
+
+            findViewById(R.id.btnSwitchLocation).setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Log.d("TAG", "onclick auf nachHause");
+                    nachHause();
+                }
+            });
+            //Button Schlafen ausgrauen
+        }
+    }
+
+    public void nachHause()
+    {
+        inUni.deleteFlag = true;
+        mainTaskList.remove(inUni);
+        inUni = null;
+        findViewById(R.id.room).setBackgroundResource(R.drawable.backgroundroom);
+        //createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategory("nachHause"), 5000);
+
+        findViewById(R.id.btnSwitchLocation).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d("TAG", "onclick auf studieren");
+                studieren();
+            }
+        });
+        //Entsperre Button Schlafen
+    }
+
+    public void sleep1H(View v)
+    {
+        sleeping = new Sleep((3600000), 13, true);
+        mainTaskList.add(sleeping);
         createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategory("sleep"), 5000);
+
+        setSleep();
+    }
+
+    public void sleep3H(View v)
+    {
+        sleeping = new Sleep((10800000), 26, true);
+        mainTaskList.add(sleeping);
+        createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategory("sleep"), 5000);
+
+        setSleep();
+    }
+
+    public void sleep6H(View v)
+    {
+        sleeping = new Sleep((3600000), 52, true);
+        mainTaskList.add(sleeping);
+        createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategory("sleep"), 5000);
+
+        setSleep();
+    }
+
+    public void sleep12H(View v)
+    {
+        sleeping = new Sleep((3600000), 102, true);
+        mainTaskList.add(sleeping);
+        createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategory("sleep"), 5000);
+
+        setSleep();
     }
 
     public void decreaseSleep(View v)
@@ -337,9 +412,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         createSpeechBubble(saveSpeechBubblesText.loadRandomSpeechBubbleFromCategory("projekt"), 5000);
     }
 
-    public void test(View v)
+    /*************************************************************************************************************************************/
+
+    private void setSleep()
     {
-        createSpeechBubble("Dies ist ein Test", 10000);
+        ((ImageView)findViewById(R.id.face)).setImageResource(R.drawable.studiheadsleep);
+        findViewById(R.id.room).setBackgroundResource(R.drawable.backgroundroomsleep);
+
+        //Sperre alle Buttons
     }
 
     public void createSpeechBubble(String text, int duration)
@@ -371,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         for(int i = 0; i < saveTaskList.size(); i++)
         {
             Tasks halter = saveTaskList.get(i);
-            if(halter.klasse == "sleep") saveTaskListSleep.add(halter);
+            if(halter.klasse == "sleep1H") saveTaskListSleep.add(halter);
             else if(halter.klasse == "food") saveTaskListFood.add(halter);
             else if(halter.klasse == "entertainment") saveTaskListEntertainment.add(halter);
             else if(halter.klasse == "education") saveTaskListEducation.add(halter);
@@ -393,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pause = false;
         s = saveStudentState.loadStudentObject();
         mainTaskList.clear();
-        addToMainList(saveTasksSleep.loadAllTasks("sleep"));
+        addToMainList(saveTasksSleep.loadAllTasks("sleep1H"));
         addToMainList(saveTasksFood.loadAllTasks("food"));
         addToMainList(saveTasksEntertainment.loadAllTasks("entertainment"));
         addToMainList(saveTasksEducation.loadAllTasks("education"));
@@ -407,49 +487,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void initializeFirstStart()
-    {
-        s = new Student("Peter");
-
-        currentTimeMillis = System.currentTimeMillis();
-        Tasks sleep = new Sleep(86400000, -70,true);
-        Tasks food = new Food(86400000, -110, true);
-        Tasks entertainment = new Entertainment(86400000, -90, true);
-        Tasks education = new Education(86400000, -5, true);
-
-        mainTaskList.add(sleep);
-        mainTaskList.add(food);
-        mainTaskList.add(entertainment);
-        mainTaskList.add(education);
-
-        initializeSpeechBubbleText();
-
-        save();
-    }
-
-    public void initializeSpeechBubbleText()
-    {
-        saveSpeechBubblesText.saveSpeechBubbleString("sleep", "Ghhhäääään.... Ab ins Bett mit mir.");
-        saveSpeechBubblesText.saveSpeechBubbleString("sleep", "Jetzt schnell ins Bett!");
-        saveSpeechBubblesText.saveSpeechBubbleString("sleep", "ich bin so müüüüde... schnell ins Bett");
-        saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "mhhhhh... Dieser Energy Drink macht mich wieder richtig wach!");
-        saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Diese Energy Drinks machen einen sofort wieder TOPFIT!");
-        saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Gleich hab ich wieder Energie zum lernen... oder fernsehgucken!");
-        saveSpeechBubblesText.saveSpeechBubbleString("mensaEssen", "Auf ein neues probier ich das Mensaessen und werde es wie immer bereuen.");
-        saveSpeechBubblesText.saveSpeechBubbleString("mensaEssen", "Mal wieder knapp bei Kasse. Da bleibt einem nichts anderes übrig außer in die Mensa zu gehen.");
-        saveSpeechBubblesText.saveSpeechBubbleString("mensaEssen", "Wenn die mir wieder Tomatensauce über alles kippen...");
-        saveSpeechBubblesText.saveSpeechBubbleString("facebook", "Mal wieder Facebook checken...");
-        saveSpeechBubblesText.saveSpeechBubbleString("facebook", "Eigentlich muss ich ja lernen aber Facebook ist auch nicht schlecht...");
-        saveSpeechBubblesText.saveSpeechBubbleString("facebook", "Ist das ne Benachrichtung...? JA ist es!");
-        saveSpeechBubblesText.saveSpeechBubbleString("projekt", "Jetzt mach ich aber wirklich mal was fürs Projekt...");
-        saveSpeechBubblesText.saveSpeechBubbleString("projekt", "Das Projekt muss jetzt wirklich mal Fortschritte machen...");
-        saveSpeechBubblesText.saveSpeechBubbleString("projekt", "Ab ans Projekt!");
-    }
     /***** SHAKE EVENT******/
     @Override
     public void onShake()
     {
-        Toast.makeText(this, "LECK MEINE EIER!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Das schütteln funktioniert!", Toast.LENGTH_SHORT).show();
+        if(sleeping != null)
+        {
+            sleeping.deleteFlag = true;
+            mainTaskList.remove(sleeping);
+            findViewById(R.id.room).setBackgroundResource(R.drawable.backgroundroom);
+            sleeping = null;
+        }
     }
 
 
@@ -469,78 +518,85 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /*************************** FLOATING BUTTONS: Logik und abfrage wecher Button gedrückt wird ************************/
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
-            case R.id.fabOVsettings:
-                animateFabS(fabOVsettings,fabUVsave,fabUVdownload);
-                break;
-            case R.id.fabUVsave:
+        if(sleeping == null)
+        {
+            switch (id)
+            {
+                case R.id.fabOVsettings:
+                    animateFab(fabOVsettings, fabUVsave, fabUVdownload);
+                    break;
+                case R.id.fabUVsave:
 
-                Log.d("Raj", "fabUVsave: save");
-                save(v);
-                break;
-            case R.id.fabUVdownload:
+                    Log.d("Raj", "fabUVsave: save");
+                    save(v);
+                    break;
+                case R.id.fabUVdownload:
 
-                Log.d("Raj", "fabUVdownload: load");
-                load(v);
-                break;
-            case R.id.fabOVdrinks:
+                    Log.d("Raj", "fabUVdownload: load");
+                    load(v);
+                    break;
+                case R.id.fabOVdrinks:
 
-                animateFabS(fabOVdrinks,fabUVwater,fabUVenergydrink);
-                break;
-            case R.id.fabUVwater:
+                    animateFab(fabOVdrinks, fabUVwater, fabUVenergydrink);
+                    break;
+                case R.id.fabUVwater:
 
-                Log.d("Raj", "fabUVwater: drinking water....");
+                    Log.d("Raj", "fabUVwater: drinking water....");
+                    break;
+                case R.id.fabUVenergydrink:
 
-                break;
-            case R.id.fabUVenergydrink:
+                    Log.d("Raj", "fabUVenergydrink: drinking EnergyDrink....");
+                    energyDrink(v);
+                    break;
+                case R.id.fabOVfood:
 
-                Log.d("Raj", "fabUVenergydrink: drinking EnergyDrink....");
-                energyDrink(v);
-                break;
-            case R.id.fabOVfood:
+                    animateFab(fabOVfood, fabUVbacon, fabUVburger);
+                    break;
+                case R.id.fabUVbacon:
 
-                animateFabS(fabOVfood,fabUVbacon,fabUVburger);
-                break;
-            case R.id.fabUVbacon:
+                    Log.d("Raj", "fabUVbacon: esse bacon....");
+                    mensaEssen(v);
+                    break;
+                case R.id.fabUVburger:
 
-                Log.d("Raj", "fabUVbacon: esse bacon....");
-                mensaEssen(v);
-                break;
-            case R.id.fabUVburger:
+                    Log.d("Raj", "fabUVburger: esse burger....");
+                    mensaEssen(v);
+                    break;
+                case R.id.fabOVsleep:
+                    if(inUni == null)
+                    {
+                        Log.d("Raj", "fabOVsleep: openSLeepFloating Button....");
+                        animateFab(fabOVsleep, fabUVsleepOneHours, fabUVsleepThreeHours, fabUVsleepFiveHours, fabUVsleepTwelveHours);
+                    }
+                    break;
+                case R.id.fabUVsleepOneHours:
 
-                Log.d("Raj", "fabUVburger: esse burger....");
-                mensaEssen(v);
-                break;
-            case R.id.fabOVsleep:
+                    Log.d("Raj", "fabOVsleepOne: Schläft jetzt 1 std....");
+                    sleep1H(v);
+                    //animateFab(fabOVsleep, fabUVsleepOneHours, fabUVsleepThreeHours, fabUVsleepFiveHours, fabUVsleepTwelveHours);
+                    //fabOVsleep.setAlpha(0.5f);
+                    break;
+                case R.id.fabUVsleepThreeHours:
 
-                Log.d("Raj", "fabOVsleep: openSLeepFloating Button....");
-                animateFabSleep(fabOVsleep,fabUVsleepOneHours,fabUVsleepThreeHours, fabUVsleepFiveHours,fabUVsleepTwelveHours);
-                break;
-            case R.id.fabUVsleepOneHours:
+                    Log.d("Raj", "fabOVsleepThree: Schläft jetzt 3 std....");
+                    sleep3H(v);
+                    break;
+                case R.id.fabUVsleepFiveHours:
 
-                Log.d("Raj", "fabOVsleepOne: Schläft jetzt 1 std....");
-                sleep(v);
-                break;
-            case R.id.fabUVsleepThreeHours:
+                    Log.d("Raj", "fabOVsleepFive: Schläft jetzt 5 std....");
+                    sleep6H(v);
+                    break;
+                case R.id.fabUVsleepTwelveHours:
 
-                Log.d("Raj", "fabOVsleepThree: Schläft jetzt 3 std....");
-                sleep(v);
-                break;
-            case R.id.fabUVsleepFiveHours:
-
-                Log.d("Raj", "fabOVsleepFive: Schläft jetzt 5 std....");
-                sleep(v);
-                break;
-            case R.id.fabUVsleepTwelveHours:
-
-                Log.d("Raj", "fabOVsleepTwelve: Schläft jetzt 12 std....");
-                sleep(v);
-                break;
+                    Log.d("Raj", "fabOVsleepTwelve: Schläft jetzt 12 std....");
+                    sleep12H(v);
+                    break;
+            }
         }
     }
 
-    public void animateFabS(FloatingActionButton fabOV,FloatingActionButton fabUVeins, FloatingActionButton fabUVzwei){
-
+    public void animateFab(FloatingActionButton fabOV, FloatingActionButton fabUVeins, FloatingActionButton fabUVzwei)
+    {
         if(isFabOpen){
             //fabUVeins.getVisibility() == View.VISIBLE
             fabOV.startAnimation(rotate_backward);
@@ -567,8 +623,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
-    public void animateFabSleep(FloatingActionButton fabOV,FloatingActionButton fabUVeins, FloatingActionButton fabUVzwei,FloatingActionButton fabUVdrei,FloatingActionButton fabUVvier ){
-
+    public void animateFab(FloatingActionButton fabOV, FloatingActionButton fabUVeins, FloatingActionButton fabUVzwei, FloatingActionButton fabUVdrei, FloatingActionButton fabUVvier )
+    {
         if(isFabOpen){
             //fabUVeins.getVisibility() == View.VISIBLE
             fabOV.startAnimation(rotate_backward);
@@ -600,7 +656,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("Raj","open");
 
         }
-
     }
 
+    public void initializeFirstStart()
+    {
+        s = new Student("Peter");
+
+        currentTimeMillis = System.currentTimeMillis();
+        Tasks sleep = new Sleep(86400000, -70,true);
+        Tasks food = new Food(86400000, -110, true);
+        Tasks entertainment = new Entertainment(86400000, -90, true);
+        Tasks education = new Education(86400000, -5, true);
+
+        mainTaskList.add(sleep);
+        mainTaskList.add(food);
+        mainTaskList.add(entertainment);
+        mainTaskList.add(education);
+
+        initializeSpeechBubbleText();
+
+        save();
+    }
+
+    public void initializeSpeechBubbleText()
+    {
+        saveSpeechBubblesText.saveSpeechBubbleString("sleep1H", "Ghhhäääään.... Ab ins Bett mit mir.");
+        saveSpeechBubblesText.saveSpeechBubbleString("sleep1H", "Jetzt schnell ins Bett!");
+        saveSpeechBubblesText.saveSpeechBubbleString("sleep1H", "ich bin so müüüüde... schnell ins Bett");
+        saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "mhhhhh... Dieser Energy Drink macht mich wieder richtig wach!");
+        saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Diese Energy Drinks machen einen sofort wieder TOPFIT!");
+        saveSpeechBubblesText.saveSpeechBubbleString("energyDrink", "Gleich hab ich wieder Energie zum lernen... oder fernsehgucken!");
+        saveSpeechBubblesText.saveSpeechBubbleString("mensaEssen", "Auf ein neues probier ich das Mensaessen und werde es wie immer bereuen.");
+        saveSpeechBubblesText.saveSpeechBubbleString("mensaEssen", "Mal wieder knapp bei Kasse. Da bleibt einem nichts anderes übrig außer in die Mensa zu gehen.");
+        saveSpeechBubblesText.saveSpeechBubbleString("mensaEssen", "Wenn die mir wieder Tomatensauce über alles kippen...");
+        saveSpeechBubblesText.saveSpeechBubbleString("facebook", "Mal wieder Facebook checken...");
+        saveSpeechBubblesText.saveSpeechBubbleString("facebook", "Eigentlich muss ich ja lernen aber Facebook ist auch nicht schlecht...");
+        saveSpeechBubblesText.saveSpeechBubbleString("facebook", "Ist das ne Benachrichtung...? JA ist es!");
+        saveSpeechBubblesText.saveSpeechBubbleString("projekt", "Jetzt mach ich aber wirklich mal was fürs Projekt...");
+        saveSpeechBubblesText.saveSpeechBubbleString("projekt", "Das Projekt muss jetzt wirklich mal Fortschritte machen...");
+        saveSpeechBubblesText.saveSpeechBubbleString("projekt", "Ab ans Projekt!");
+    }
 }

@@ -1,5 +1,7 @@
 package de.k_ruben.tamastudent;
 
+import android.util.Log;
+
 /**
  * Created by Ruben on 26.04.2016.
  */
@@ -18,7 +20,7 @@ public class Sleep extends Tasks
      */
     public Sleep(int expireTime, int changeValueSleep, boolean isInfinite)
     {
-        this.klasse = "sleep";
+        this.klasse = "sleep1H";
         currentTimeMillis = System.currentTimeMillis();
         startDate = currentTimeMillis;
         lastExecute = currentTimeMillis;
@@ -37,7 +39,7 @@ public class Sleep extends Tasks
      */
     public Sleep(int expireTime, int delay, int changeValueSleep, boolean isInfinite, boolean uniqueDelay)
     {
-        this.klasse = "sleep";
+        this.klasse = "sleep1H";
         currentTimeMillis = System.currentTimeMillis();
         this.delay = delay;
         startDate = currentTimeMillis + delay;
@@ -60,7 +62,7 @@ public class Sleep extends Tasks
      */
     public Sleep(long startDate, long endDate, int changeValueSleep, boolean isInfinite, boolean calculateBack)
     {
-        this.klasse = "sleep";
+        this.klasse = "sleep1H";
         currentTimeMillis = System.currentTimeMillis();
         this.startDate = startDate;
         this.lastExecute = currentTimeMillis;
@@ -80,11 +82,25 @@ public class Sleep extends Tasks
     {
         currentTimeMillis = System.currentTimeMillis();
         double changeValue = 0;
+
         if (startDate < currentTimeMillis)
         {
             changeValue = calculateChangeValue(changeValueSleep);
             s.changeSleepValue(changeValue);
             lastExecute = currentTimeMillis;
+        }
+
+        //Ob die Aufgabe endlich ist und abgelaufen ist
+        if (isInfinite == false && expireDate <= currentTimeMillis)
+        {
+            Log.d("expire","Letzter Aufruf bevor expire");
+            deleteFlag = true;
+        }
+        //Ob die Aufgabe unendlich ist und abgelaufen ist
+        else if (isInfinite == true && expireDate <= currentTimeMillis)
+        {
+            Log.d("reset", "letzter Aufruf bevor reset");
+            reset();
         }
     }
 }
