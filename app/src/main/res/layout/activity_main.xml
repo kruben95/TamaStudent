@@ -9,46 +9,6 @@
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:textAlignment="center">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnEnergyDrink"
-        android:id="@+id/btnEnergyDrink"
-        android:onClick="energyDrink"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="false"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnSave"
-        android:id="@+id/btnSave"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="save"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnSleep"
-        android:id="@+id/btnSleep"
-        android:layout_below="@+id/btnEnergyDrink"
-        android:layout_alignRight="@+id/btnEnergyDrink"
-        android:layout_alignEnd="@+id/btnEnergyDrink"
-        android:onClick="sleep"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnLoad"
-        android:id="@+id/btnLoad"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/btnSave"
-        android:layout_toStartOf="@+id/btnSave"
-        android:onClick="load"/>
-
     <ImageView
         android:layout_width="150dp"
         android:layout_height="wrap_content"
@@ -80,7 +40,7 @@
         android:layout_above="@+id/face"
         android:onClick="closeSpeechBubble"
         android:gravity="end"
-        android:layout_marginBottom="-100dp">
+        android:layout_marginBottom="-200dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,16 +58,6 @@
             android:gravity="top"
             />
     </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
-        android:onClick="test"
-        android:layout_above="@+id/circleEntertainment"
-        android:layout_alignRight="@+id/btnSleep"
-        android:layout_alignEnd="@+id/btnSleep"/>
 
     <LinearLayout
         android:layout_width="65dp"
@@ -301,51 +251,273 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Highscroe: 0"
+        android:text="Scroe: 0"
         android:id="@+id/tvHighScore"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="5dp"
         android:layout_marginBottom="5dp"/>
+    <!-- ***********************************************************************************************-->
+    <!-- ***********************************************************************************************-->
 
-    <!--  <android.support.design.widget.FloatingActionButton
-          android:id="@+id/fab2"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginBottom="14dp"
-          android:layout_gravity="bottom|end"
-          android:layout_marginRight="130dp"
-          android:visibility="invisible"
-          app:backgroundTint="@color/colorFAB2"
-          app:elevation="6dp"
-          app:pressedTranslationZ="12dp"
-          android:src="@drawable/ic_done" />
-      <android.support.design.widget.FloatingActionButton
-          android:id="@+id/fab1"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_marginBottom="14dp"
-          android:layout_gravity="bottom|end"
-          android:layout_marginRight="75dp"
-          android:visibility="invisible"
-          app:elevation="6dp"
-          app:backgroundTint="@color/colorFAB1"
-          app:pressedTranslationZ="12dp"
-          android:src="@drawable/ic_message" />
-      <android.support.design.widget.FloatingActionButton
-          android:id="@+id/fab"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="bottom|end"
-          app:elevation="6dp"
-          app:backgroundTint="@color/colorAccent"
-          app:pressedTranslationZ="12dp"
-          android:src="@drawable/ic_add"
-          android:layout_marginLeft="69dp"
-          android:layout_alignTop="@+id/circleSleep"
-          android:layout_alignParentLeft="true"
-          android:layout_alignParentStart="true"
-          android:layout_marginStart="69dp" /> -->
+    <!-- ***** FLOATING BUTTONS  *************-->
+
+    <!-- ***********************************************************************************************-->
+    <!-- ***********************************************************************************************-->
+
+    <!-- ***** OverView 1: Bla *******-->
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="false"
+        tools:context=".MainActivity"
+        android:id="@+id/sleepView"
+        android:layout_above="@+id/foodView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:paddingBottom="5dp"
+        >
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabUVsleepTwelveHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="260dp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorFAB2"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/timetwelve"
+        android:onClick="sleep"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabUVsleepFiveHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="195dp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorFAB2"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/timefive"
+        android:onClick="sleep"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabUVsleepThreeHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="130dp"
+        android:visibility="invisible"
+        app:backgroundTint="@color/colorFAB2"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/timethree"
+        android:onClick="sleep"/>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabUVsleepOneHours"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="75dp"
+        android:visibility="invisible"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorFAB1"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/timeone"
+        android:nestedScrollingEnabled="true"
+        android:onClick="sleep" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabOVsleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_gravity="bottom|end"
+        app:elevation="6dp"
+        app:backgroundTint="@color/colorAccent"
+        app:pressedTranslationZ="12dp"
+        android:src="@drawable/bed" />
+
+</android.support.design.widget.CoordinatorLayout>
+
+    <!-- ***********************************************************************************************-->
+
+        <!-- ***** OverView 2: Drinks *******-->
+
+        <!-- ***********************************************************************************************-->
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="false"
+        tools:context=".MainActivity"
+        android:id="@+id/foodView"
+        android:layout_above="@+id/drinksView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:paddingBottom="5dp">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabUVburger"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="130dp"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorFAB2"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:src="@drawable/bananasplit"
+            android:onClick="mensaEssen"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabUVbacon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="75dp"
+            android:visibility="invisible"
+            app:elevation="6dp"
+            app:backgroundTint="@color/colorFAB1"
+            app:pressedTranslationZ="12dp"
+            android:src="@drawable/bacon"
+            android:nestedScrollingEnabled="true"
+            android:onClick="mensaEssen" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabOVfood"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="bottom|end"
+            app:elevation="6dp"
+            app:backgroundTint="@color/colorAccent"
+            app:pressedTranslationZ="12dp"
+            android:src="@drawable/food" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="false"
+        tools:context=".MainActivity"
+        android:id="@+id/drinksView"
+        android:layout_above="@+id/saveView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:paddingBottom="5dp">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabUVenergydrink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="130dp"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorFAB2"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:src="@drawable/espresso"
+            android:onClick="energyDrink"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabUVwater"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="75dp"
+            android:visibility="invisible"
+            app:elevation="6dp"
+            app:backgroundTint="@color/colorFAB1"
+            app:pressedTranslationZ="12dp"
+            android:src="@drawable/water"
+            android:nestedScrollingEnabled="true"
+            android:onClick="save" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabOVdrinks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="bottom|end"
+            app:elevation="6dp"
+            app:backgroundTint="@color/colorAccent"
+            app:pressedTranslationZ="12dp"
+            android:src="@drawable/drink" />
+
+        </android.support.design.widget.CoordinatorLayout>
+        <!-- ***********************************************************************************************-->
+
+        <!-- ***** OverView 3: SLEEP *******-->
+
+        <!-- ***********************************************************************************************-->
+    <!-- ***********************************************************************************************-->
+
+    <!-- ***** OverView 3: FOOD *******-->
+
+    <!-- ***********************************************************************************************-->
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="false"
+        tools:context=".MainActivity"
+        android:id="@+id/saveView"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:paddingBottom="5dp"
+        android:layout_above="@+id/tvHighScore">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabUVdownload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="130dp"
+            android:visibility="invisible"
+            app:backgroundTint="@color/colorFAB2"
+            app:elevation="6dp"
+            app:pressedTranslationZ="12dp"
+            android:src="@drawable/download"
+            android:onClick="load"/>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabUVsave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="75dp"
+            android:visibility="invisible"
+            app:elevation="6dp"
+            app:backgroundTint="@color/colorFAB1"
+            app:pressedTranslationZ="12dp"
+            android:src="@drawable/save"
+            android:nestedScrollingEnabled="true"
+            android:onClick="save" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabOVsettings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginRight="16dp"
+            app:elevation="6dp"
+            app:backgroundTint="@color/colorAccent"
+            app:pressedTranslationZ="12dp"
+            android:src="@drawable/ic_add" />
+
+        </android.support.design.widget.CoordinatorLayout>
+    -->
 
 </RelativeLayout>

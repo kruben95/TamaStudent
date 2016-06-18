@@ -39,6 +39,8 @@ public abstract class Tasks implements Executeable
             long elapsedTime = 0;
             boolean stop = false;
 
+
+            //******************************* Noch nicht fertig. Ist fehlerhaft ***************************************//
             /*//ob lastExecute noch vor dem Startzeitpunkt oder now ist -> Wartezeit berechnen
             if(lastExecute < startDate && currentTimeMillis > startDate) wait += startDate - lastExecute;
             else if(lastExecute < startDate && currentTimeMillis < startDate) wait += currentTimeMillis - lastExecute;

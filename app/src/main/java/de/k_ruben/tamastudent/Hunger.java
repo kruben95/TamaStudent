@@ -27,7 +27,7 @@ public class Hunger extends Tasks
         double changeValue = 0;
         changeValue = calculateChangeValue(changeValueSleep);
 
-        s.changeHungerValue(changeValue);
+        s.changeFoodValue(changeValue);
         currentTimeMillis = System.currentTimeMillis();
         lastExecute = currentTimeMillis;
     }

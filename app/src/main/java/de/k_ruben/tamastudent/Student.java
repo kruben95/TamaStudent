@@ -1,6 +1,8 @@
 package de.k_ruben.tamastudent;
 
 
+import android.util.Log;
+
 /**
  * Created by Ruben on 23.04.2016.
  */
@@ -8,8 +10,8 @@ public class Student
 {
     public String name;
     public double sleep;
-    public double hunger;
-    public double uni;
+    public double food;
+    public double education;
     public double entertainment;
     public long startDate;
 
@@ -22,20 +24,17 @@ public class Student
      * (Evtl. noch als Übergabe parameter ein Dateiname. Aus dieser Datei werden
      * dann die Stats und Aufgaben ausgelesen (ermöglicht auch mehrere Spielstände)
      */
-    public Student()
+    public Student(String name)
     {
-        if(name == null)
-        {
-            //lege neuen Studenten an
-            //Frage nach einem Namen der mehr als 1 Zeichen hat
-            this.name = "Peter"; //hier wird die Einagbe rein gespeichert
-            //Wahrscheinlich lieber schlechte Stats machen, damit man beim erstmaligen Spielen auch was zu tun hat
-            this.sleep = 20;
-            this.hunger = 20;
-            this.uni = 35;
-            this.entertainment = 42;
-            this.startDate = System.currentTimeMillis();
-        }
+        //lege neuen Studenten an
+        //Frage nach einem Namen der mehr als 1 Zeichen hat
+        this.name = name; //hier wird die Einagbe rein gespeichert
+        //Wahrscheinlich lieber schlechte Stats machen, damit man beim erstmaligen Spielen auch was zu tun hat
+        this.sleep = 20;
+        this.food = 20;
+        this.education = 35;
+        this.entertainment = 42;
+        this.startDate = System.currentTimeMillis();
     }
 
     /**
@@ -65,11 +64,11 @@ public class Student
      * Ändert den Hunger-Wert
      * @param changeValue       Wert, um den sich der Hunger-Wert ändern soll
      */
-    void changeHungerValue(double changeValue)
+    void changeFoodValue(double changeValue)
     {
-        if((hunger + changeValue) < 0) hunger = 0;
-        else if((hunger + changeValue) <= 100) hunger += changeValue;
-        else hunger = 100;
+        if((food + changeValue) < 0) food = 0;
+        else if((food + changeValue) <= 100) food += changeValue;
+        else food = 100;
     }
 
     /**
@@ -78,7 +77,7 @@ public class Student
      */
     double getHungerValue()
     {
-        return hunger;
+        return food;
     }
 
     /**
@@ -108,24 +107,43 @@ public class Student
      * Ändert den Schlaf-Wert
      * @param changeValue       Wert, um den sich der Schlaf-Wert ändern soll
      */
-    void changeUniValue(double changeValue)
+    void changeEducationValue(double changeValue)
     {
-        if((uni + changeValue) < 0) uni = 0;
-        else if((uni + changeValue) <= 100)
+        if((education + changeValue) < 0) education = 0;
+        else if((education + changeValue) <= 100)
         {
-            uni += changeValue;
+            education += changeValue;
         }
-        else uni = 100;
+        else education = 100;
     }
 
-    double getUniValue()
+    double getEducationValue()
     {
-        return uni;
+        return education;
     }
 
-    int getHighscore()
+    String getScore()
     {
-        return (int) ((System.currentTimeMillis() - startDate)/1000/60/60);
+        String score = "";
+        int cheatTimeAlive = 59900 * 60;
+        cheatTimeAlive = 0;
+        long timeAlive = (System.currentTimeMillis() + cheatTimeAlive - startDate);
+
+        //Berechne die vergangene Zeit
+        int hours = (int) timeAlive/1000/60/60;
+        int minutes = (int) timeAlive/1000/60 - hours*60;
+        int seconds = (int) (timeAlive/1000 - minutes*60) - hours*60*60;
+
+        //Log.d("TAG", "hours: " + hours + " minutes: " + minutes + " seconds " + seconds);
+
+        return (convertToTime(hours) + ":" + convertToTime(minutes) + ":" + convertToTime(seconds));
+    }
+
+    public String convertToTime(int time)
+    {
+        //erzeuge ein vernünftiges Aussehen bei Werten kleiner 10
+        if(time < 10) return "0" + time;
+        else return "" + time;
     }
 }
 
